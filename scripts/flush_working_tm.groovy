@@ -60,7 +60,9 @@ def gui() {
 	def tusToRemove = [];
 	projectTmx.body.tu.findAll { node ->
 		def targetTuv = node.tuv[1];
-		tusToRemove.add(targetTuv.parent());
+		if (targetTuv != null) {
+			tusToRemove.add(targetTuv.parent());
+		}
 	};
 
 	// Removes the found <tu> from the XML document
