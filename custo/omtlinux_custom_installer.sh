@@ -66,7 +66,7 @@ echo "OmegaT ${VERSION} will be installed and customized in this Linux machine."
 
 # installation or only customization ?
 echo ""
-echo "This script has some dependencies: xmlstarlet and git. "
+echo "This script has some dependencies: xmlstarlet, wget and git. "
 echo "If those commands are not installed in your machine, stop here and install them first."
 read -r -s -p $'Press enter to continue...'
 
