@@ -2,12 +2,13 @@
  * 
  * @author      Manuel Souto Pico
  * @date        2020-09-12
- * @version     0.2.0
+ * @version     0.2.1
  */
 
 /* 
  * @versions: 
  * 0.2.0: added %CODE% exclusion
+ * 0.2.1: fixed some corrupted characters (2022-06-08)
  */
  
 def gui(){
@@ -53,7 +54,7 @@ def gui() {
 		replac = "#"
 		pseudo = pseudo.replaceAll(search, replac)	
 		// pseudo-translate upper cased letters
-		search = /[A-ZÀ�ÄÂÃÈÉËÊÌ��ÎÒÓÖÔÕÚÙÜÛ](?![^<]*?>)/
+		search = /[A-ZÀÁÄÂÃÈÉËÊÌÍÏÎÒÓÖÔÕÚÙÜÛ](?![^<]*?>)/
 		replac = "X"
 		pseudo = pseudo.replaceAll(search, replac)		
 		// pseudo-translate upper cased letters
@@ -68,5 +69,5 @@ def gui() {
 
 // Check
 // [a-wyzA-WYZ0-9]
-// [!-’,;.:“�\(\)\]\[\?&=xX#–"º%…—/   ^t^13  ]
+// [!-’,;.:“�\(\)\]\[\?&=xX#–"º%…—/   ^t^13  ]
 
