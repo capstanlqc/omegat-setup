@@ -26,7 +26,7 @@ if (editor.selectedText){
 	target = editor.getCurrentTranslation()
 	}
 if (target != null) {
-target = target.replaceAll(/(<|&lt;)[^&;<>]+?(>|&gt;)/, '')
+  target = target.replaceAll(/(<|&lt;)[^&;<>]+?(>|&gt;)/, '')
 }
 
 if (editor.selectedText){

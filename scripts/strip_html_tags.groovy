@@ -2,8 +2,13 @@
  * 
  * @author   Manuel Souto Pico (based on Strip tags)
  * @date     2018-11-30
- * @version  0.1
+ * @version  0.2
  */
+
+/*
+ * @versions:
+ * 0.2.0: replaced pattern to find some html tags with pattern to find all tags except OmegaT (g/x) tags
+*/
 
 import static javax.swing.JOptionPane.*
 import static org.omegat.util.Platform.*
@@ -26,7 +31,8 @@ if (editor.selectedText){
 	target = editor.getCurrentTranslation()
 	}
 if (target != null) {
-target = target.replaceAll(/(<|&lt;)\/?(a|br|em|sup|u)[^&;<>]*?(>|&gt;)/, '')
+// target = target.replaceAll(/(<|&lt;)\/?(b|i|a|br|em|sup|u)[^&;<>]*?(>|&gt;)/, '')
+  target = target.replaceAll(/(?!<\/?[gx]\d+\/?>)<\/?[^>]+>/, '')
 }
 
 if (editor.selectedText){
