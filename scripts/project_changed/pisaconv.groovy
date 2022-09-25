@@ -8,6 +8,21 @@
 
 import static org.omegat.core.events.IProjectEventListener.PROJECT_CHANGE_TYPE.*
 
+// check that this is PISA
+prop = project.getProjectProperties()
+proj_name = prop.projectName
+// The container is the first entity in the project name (before the first underscore)
+container = (proj_name =~ /^[^_]+/)[0]
+
+if (container.contains("PISA")) {
+  console.println("This script runs on PISA XLIFF files, let's continue!")
+} else {
+  console.println("This is not PISA, let's stop here. Good bye!")
+  return
+}
+console.println("This is not printed...")
+// this should be overwritten with the version generated from the template
+
 
 // prepare
 String dir

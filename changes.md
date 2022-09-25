@@ -1,8 +1,9 @@
 # OmegaT (cApStAn) customization
 
-## Update 75_cs0 ()
+## Update 75_cs0 (2022-09-25)
 
 * Scripts: Renamed script `pseudoxlate_latn2arab.groovy` ("Arabic" added in title)
+* Scripts: Updated `pisaconv.groovy` so that it only runs on PISA XLIFF files.
 
 ## Update 74_cs0 (2022-03-28)
 
