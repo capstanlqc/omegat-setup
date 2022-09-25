@@ -8,6 +8,7 @@
 
 import static org.omegat.core.events.IProjectEventListener.PROJECT_CHANGE_TYPE.*
 
+
 // check that this is PISA
 prop = project.getProjectProperties()
 proj_name = prop.projectName
@@ -21,8 +22,7 @@ if (container.contains("PISA")) {
   return
 }
 console.println("This is not printed...")
-// this should be overwritten with the version generated from the template
-
+// version generated with php based on template
 
 // prepare
 String dir
@@ -94,6 +94,7 @@ switch (eventType) {
 			[find: /"ben-BGD"/, replacement: /"bn-BD"/],
 			[find: /"ben-IND"/, replacement: /"bn-IN"/],
 			[find: /"bik-PHL"/, replacement: /"bik-PH"/],
+			[find: /"boc-BIH"/, replacement: /"bs-BC"/],
 			[find: /"bos-BIH"/, replacement: /"bs-BA"/],
 			[find: /"bos-SRB"/, replacement: /"bs-RS"/],
 			[find: /"bul-BGR"/, replacement: /"bg-BG"/],
@@ -150,6 +151,7 @@ switch (eventType) {
 			[find: /"eng-OMN"/, replacement: /"en-OM"/],
 			[find: /"eng-PAN"/, replacement: /"en-PA"/],
 			[find: /"eng-PHL"/, replacement: /"en-PH"/],
+			[find: /"eng-PSE"/, replacement: /"en-PS"/],
 			[find: /"eng-QAT"/, replacement: /"en-QA"/],
 			[find: /"eng-QCY"/, replacement: /"en-CY"/],
 			[find: /"eng-QIN"/, replacement: /"en-IN"/],
@@ -428,6 +430,7 @@ switch (eventType) {
 			[find: /"bn-BD"/, replacement: /"ben-BGD"/],
 			[find: /"bn-IN"/, replacement: /"ben-IND"/],
 			[find: /"bs-BA"/, replacement: /"bos-BIH"/],
+			[find: /"bs-BC"/, replacement: /"boc-BIH"/],
 			[find: /"bs-RS"/, replacement: /"bos-SRB"/],
 			[find: /"ca-ES"/, replacement: /"cat-ESP"/],
 			[find: /"ca-VL"/, replacement: /"val-ESP"/],
@@ -488,6 +491,7 @@ switch (eventType) {
 			[find: /"en-OM"/, replacement: /"eng-OMN"/],
 			[find: /"en-PA"/, replacement: /"eng-PAN"/],
 			[find: /"en-PH"/, replacement: /"eng-PHL"/],
+			[find: /"en-PS"/, replacement: /"eng-PSE"/],
 			[find: /"en-QA"/, replacement: /"eng-QAT"/],
 			[find: /"en-SA"/, replacement: /"eng-SAU"/],
 			[find: /"en-SE"/, replacement: /"eng-SWE"/],
