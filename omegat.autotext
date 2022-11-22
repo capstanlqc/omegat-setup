@@ -89,4 +89,6 @@
 \supe	ᵉ	superscript small e (for ordinals in French)
 \ordde	ᵈᵉ	superscript small de (for 2nd ordinal in French)
 \supde	ᵈᵉ	superscript small de (for 2nd ordinal in French)
+\sup-	⁻	superscript minus sign (U+207B)
+\sup+	⁺	superscript plus sign (U+207A)
 \sub2	₂	subindex small 2
