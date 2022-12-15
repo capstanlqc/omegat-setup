@@ -2,6 +2,7 @@ MainMenuShortcuts.properties
 plugins/index.php
 plugins/list_files.txt
 plugins/list_paths.txt
+plugins/omegat-bidimarkers-0.2.0-all.jar
 scripts/project_changed/container_assets.groovy
 scripts/container_assets.groovy
 scripts/project_changed/restore_files_order.groovy

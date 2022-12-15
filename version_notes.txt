@@ -1,8 +1,10 @@
 # OmegaT (cApStAn) customization
 
-## Update 76_c00 (2022-11-22)
+## Update 76_c0p (2022-12-15)
 
 * Config: Added autotext entries: superscript + and -
+* Script: Added `write_project2tsv.groovy`
+* Plugin: Removed `omegat-bidimarkers-0.2.0-all.jar`
 
 ## Update 75_cs0 (2022-09-25)
 

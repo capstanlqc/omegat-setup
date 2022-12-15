@@ -1,5 +1,11 @@
 # OmegaT (cApStAn) customization
 
+## Update 76_csp (2022-12-15)
+
+* Config: Added autotext entries: superscript + and -
+* Script: Added `write_project2tsv.groovy`
+* Plugin: Removed `omegat-bidimarkers-0.2.0-all.jar`
+
 ## Update 75_cs0 (2022-09-25)
 
 * Scripts: Renamed script `pseudoxlate_latn2arab.groovy` ("Arabic" added in title)
