@@ -1,5 +1,9 @@
 # OmegaT (cApStAn) customization
 
+## Update 77_cs0 (2022-12-19)
+
+* Config: Added default color definition explicit to fix the black-box issue in the View menu
+
 ## Update 76_csp (2022-12-15)
 
 * Config: Added autotext entries: superscript + and -
