@@ -1,5 +1,9 @@
 # OmegaT (cApStAn) customization
 
+## Update 78_c00 ()
+
+* Config: Added all subscript and superscript digits and a few other characters used in maths
+
 ## Update 77_cs0 (2022-12-19)
 
 * Config: Added default color definition explicit to fix the black-box issue in the View menu
