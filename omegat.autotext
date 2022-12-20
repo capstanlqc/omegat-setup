@@ -14,10 +14,22 @@
 \tm	™	trademark symbol
 \reg	®	registered (U+00AE)
 (tm)	™	trademark symbol
-\sup1	¹	superscript 1 
-\sup3	³	superscript 3 
-\sup2	²	superscript 2 
-\rlm	‏	RLM
+\sup0	⁰	superscript 0 (U+2070)
+\sup1	¹	superscript 1 (U+00B9)
+\sup2	²	superscript 2 (U+00B2)
+\sup3	³	superscript 3 (U+00B3)
+\sup4	⁴	superscript 4 (U+2074)
+\sup5	⁵	superscript 5 (U+2075)
+\sup6	⁶	superscript 6 (U+2076)
+\sup7	⁷	superscript 7 (U+2077)
+\sup8	⁸	superscript 8 (U+2078)
+\sup9	⁹	superscript 9 (U+2079)
+\supi	ⁱ	superscript i (U+2071)
+\supn	ⁿ	superscript n (U+207F)
+\sup(	⁽	superscript left parenthesis (U+207D)
+\sup)	⁾	superscript right parenthesis (U+207E)
+\lrm	‎	LRM (U+200E)
+\rlm	‏	RLM (U+200F)
 \minus	–	n-dash (U+2013)
 \ndash	–	n-dash (U+2013)
 \mdash	—	m-dash (U+2014)
@@ -67,7 +79,7 @@
 \frac78	⅞	vulgar fraction 7/8
 \frac19	⅑	vulgar fraction 1/9
 \frac110	⅒	vulgar fraction 1/10
-\fracslash	⁄	fraction slash (E+2044)
+\fracslash	⁄	fraction slash (E+2044ₛ)
 \9	٩	
 \8	٨	
 \7	٧	
@@ -91,4 +103,14 @@
 \supde	ᵈᵉ	superscript small de (for 2nd ordinal in French)
 \sup-	⁻	superscript minus sign (U+207B)
 \sup+	⁺	superscript plus sign (U+207A)
-\sub2	₂	subindex small 2
+\sub0	₀	subscript 0 (U+2080)
+\sub1	₁	subscript 1 (U+2081)
+\sub2	₂	subscript 2 (U+2082)
+\sub3	₃	subscript 3 (U+2083)
+\sub4	₄	subscript 4 (U+2084)
+\sub5	₅	subscript 5 (U+2085)
+\sub6	₆	subscript 6 (U+2086)
+\sub7	₇	subscript 7 (U+2087)
+\sub8	₈	subscript 8 (U+2088)
+\sub9	₉	subscript 9 (U+2089)
+\subs	ₛ	subscript s (U+209B)
