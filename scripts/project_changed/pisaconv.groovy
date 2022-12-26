@@ -8,7 +8,7 @@
 
 import static org.omegat.core.events.IProjectEventListener.PROJECT_CHANGE_TYPE.*
 
-
+/*
 // check that this is PISA
 prop = project.getProjectProperties()
 proj_name = prop.projectName
@@ -21,7 +21,7 @@ if (container.contains("PISA")) {
   console.println("This is not PISA, let's stop here. Good bye!")
   return
 }
-console.println("This is not printed...")
+*/
 // version generated with php based on template
 
 // prepare
@@ -737,7 +737,9 @@ int modifiedFiles = 0
 // options as map
 def options = [
     type       : groovy.io.FileType.FILES,
-    nameFilter : ~/.*\.xlf/
+    // nameFilter : ~/.*\.xlf/
+    // nameFilter : ~/PISA_[a-z]{3}-[A-Z]{3}.+?(MS|FT)(20)?(2[12]|1[58]).*?\.xlf/
+    nameFilter : ~/(PISA_[a-z]{3}-[A-Z]{3}.+?(MS|FT)20(2[12]|1[58])|.*((MS|FT)(1[58]|2[12])|(School|Student)_Global_Crises_Module|[Ii]nterface)_[a-z]{3}-[A-Z]{3})\.xlf/
 ]
 
 // replacer as closure
