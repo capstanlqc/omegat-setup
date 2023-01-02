@@ -739,7 +739,9 @@ def options = [
     type       : groovy.io.FileType.FILES,
     // nameFilter : ~/.*\.xlf/
     // nameFilter : ~/PISA_[a-z]{3}-[A-Z]{3}.+?(MS|FT)(20)?(2[12]|1[58]).*?\.xlf/
-    nameFilter : ~/(PISA_[a-z]{3}-[A-Z]{3}.+?(MS|FT)20(2[12]|1[58])|.*((MS|FT)(1[58]|2[12])|(School|Student)_Global_Crises_Module|[Ii]nterface)_[a-z]{3}-[A-Z]{3})\.xlf/
+    nameFilter : ~/(PISA_[a-z]{3}-[A-Z]{3}.+?(MS|FT)20(2[12]|1[58])|.*((MS|FT)(1[58]|2[12])|(School|Student)_Global_Crises_Module|[Ii]nterface)_[a-z]{3}-[A-Z]{3}|PIAAC_.*?[a-z]{3}-[A-Z]{3}.*?)\.xlf/
+    // see https://regex101.com/r/Eo1HiI/1 for piaac
+    // see https://regex101.com/r/Eo1HiI/2 for pisa+piaac
 ]
 
 // replacer as closure
