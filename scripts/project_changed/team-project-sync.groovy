@@ -49,11 +49,14 @@ if (eventType == LOAD) {
 }
 
 def diffSourceRemoteLocal(props) throws Exception {
+
+	// @todo: this only handles files, not folders. any subfolders get empty but remain...
+	
 	File localSourceDir = props.getSourceDir().getAsFile();
 	def projectRoot = props.projectRootDir;
 
 	// List of current local files
-	List<String> localFiles = FileUtil.buildRelativeFilesList(localSourceDir, null, null);
+	List<String> localFiles = FileUtil.buildRelativeFilesList(localSourceDir, null, ['.gitkeep']); /* includes, excludes */
 
 	if (VERBOSE) {
 		console.println("--- Current local files ---");
@@ -66,7 +69,7 @@ def diffSourceRemoteLocal(props) throws Exception {
 	def remoteFiles = new ArrayList<>(localFiles.size());
 
 	// this line because it seems hidden remote files are not collected
-	remoteFiles.add('.gitkeep');
+	/* remoteFiles.add('.gitkeep') */
 
 	for (def repoDefinition in props.repositories) {
 		def repositoryDir = getRepositoryDir(projectRoot, repoDefinition);
