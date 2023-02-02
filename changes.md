@@ -5,6 +5,7 @@
 * Config: Added all subscript and superscript digits and a few other characters used in maths
 * Script: Updated `pisaconv.groovy` so that it only matches XLIFF files from ETS up to PISA 2022
 * Script: Added `team-project-sync.groovy`, which removes local files not found in repo
+* Script: Added `goto_next_alternative.groovy`, which goes to the next segment with an alternative translation (duh!)
 
 ## Update 77_cs0 (2022-12-19)
 
