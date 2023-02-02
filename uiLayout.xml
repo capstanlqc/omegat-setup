@@ -14,14 +14,14 @@
 <Split orientation="0" location="0.6573033707865169">
 <Split orientation="0" location="0.5387931034482759">
 <Dockable>
-<Key dockName="GLOSSARY"/>
+<Key dockName="SEGMENTPROPERTIES"/>
 </Dockable>
 <Dockable>
 <Key dockName="MULTIPLE_TRANS"/>
 </Dockable>
 </Split>
 <Dockable>
-<Key dockName="SEGMENTPROPERTIES"/>
+<Key dockName="GLOSSARY"/>
 </Dockable>
 </Split>
 </Split>

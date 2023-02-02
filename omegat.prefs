@@ -13,7 +13,7 @@
     <ac_chartable_use_custom_chars>true</ac_chartable_use_custom_chars>
     <ac_chartable_custom_char_string>«»”“‘’„…€¢£$¥₩™®©²³ªº–—×÷·±≤≥≠≈√°∞µ½⅓¼⁄٠١٢٣٤٥٦٧٨٩</ac_chartable_custom_char_string>
     <ac_chartable_unique_custom_chars>true</ac_chartable_unique_custom_chars>
-    <display_modification_info>all</display_modification_info>
+    <display_modification_info>none</display_modification_info>
     <view_option_source_all_bold>true</view_option_source_all_bold>
     <view_option_source_active_bold>true</view_option_source_active_bold>
     <lt_disabled>false</lt_disabled>
