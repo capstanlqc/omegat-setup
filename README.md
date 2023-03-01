@@ -12,7 +12,7 @@ In a nutshell, this setup consists of tweaked preferences and configuration file
 
 ### Windows
 
-Please follow [this guide](https://slides.com/capstan/omegat-v5-install-and-setup-guide).
+Please follow [this guide](https://slides.com/capstan/omegat-v5-install-and-setup-guide/fullscreen).
 
 Alternatively, these are the basic steps (a summary of the guide above):
 
@@ -34,4 +34,4 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/capstanlqc/omegat-setup/
 
 ### macOS
 
-Please follow [this guide](https://slides.com/capstan/omegat-v5-install-and-setup-guide-macos).
+Please follow [this guide](https://slides.com/capstan/omegat-v5-install-and-setup-guide-macos/fullscreen).
