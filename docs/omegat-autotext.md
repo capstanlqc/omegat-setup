@@ -83,7 +83,7 @@
 | \frac78 | ⅞ | vulgar fraction 7/8 |
 | \frac19 | ⅑ | vulgar fraction 1/9 |
 | \frac110 | ⅒ | vulgar fraction 1/10 |
-| \fracslash | ⁄ | fraction slash (E+2044ₛ) |
+| \fracslash | ⁄ | fraction slash (E+2044) |
 | \9 | ٩ | nan |
 | \8 | ٨ | nan |
 | \7 | ٧ | nan |
