@@ -1,4 +1,4 @@
-/* :name=       Write Project to Excel (1.3):description=
+/* :name=Write Project to Excel (1.3)   :description=
  * 
  * 
  * 
