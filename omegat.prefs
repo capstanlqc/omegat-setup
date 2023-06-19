@@ -104,7 +104,6 @@
     <taas_lookup>false</taas_lookup>
     <tagValidation_customPattern>&lt;/?(EMPTY|[bui]|sup|sub|strong|strike|small|ul|ol|li|a|em|br\s*/?|img|var|span|div|p|run\d|style|center)(\s+[^&lt;&gt;]+)??&gt;|^((PA|Q)\d[A-Z0-9]+)$|&amp;lt;br\s?/&amp;gt;|[▼►⇑●∠]|&amp;#x\w+?;|%s|(\{#.+?\}|\{@.*?\}|\{[A-Z_]+\}|\[[A-Z_]+\]|\^\w+\$)</tagValidation_customPattern>
     <tagValidation_removePattern>(?:&lt;)(?!\s|(?:&lt;)|(/?(EMPTY|[bui]|sup|sub|strong|strike|small|ul|ol|li|a|em|br\s*/?|img|var|span|div|p|run\d|style|center)(\s+[^&gt;]+)?(?:&gt;))|/?[a-z]\d+/?(?:&gt;)).*?(?:&gt;)|(?:&lt;)[\w.-]+@[\w.-]+(?:&gt;)|###+|[xX]{3,}</tagValidation_removePattern>
-    <target_lang>ta</target_lang>
     <theme_class_name>org.omegat.gui.theme.DefaultFlatTheme</theme_class_name>
     <tipoftheday_show_on_start>false</tipoftheday_show_on_start>
     <transtips>true</transtips>

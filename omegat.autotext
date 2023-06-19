@@ -31,6 +31,8 @@
 \lrm	‎	LRM (U+200E)
 \rlm	‏	RLM (U+200F)
 \minus	–	n-dash (U+2013)
+\en	–	n-dash (U+2013)
+\em	—	m-dash (U+2014)
 \ndash	–	n-dash (U+2013)
 \mdash	—	m-dash (U+2014)
 \pi	π	mathematical pi letter

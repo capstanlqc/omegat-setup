@@ -1,5 +1,28 @@
 # OmegaT (cApStAn) customization
 
+## Update 81_c0p (2023-05-15)
+
+* Plugin: Added `TmxCommentsProvider-1.1.jar` to enable T&A notes in the Comments pane
+
+## Update 80_csp (2023-03-09)
+
+* Config: Added Comments pane to the top right.
+* Plugin: Updated Okapi plugin 1.12-1.44.0 from 24a23ea-jre8 to 6e59379-jre8
+
+## Update 79_cs0 (2023-03-09)
+
+* Script: Disable prompt in offline projects.
+
+## Update 78_cs0 (2023-03-08)
+
+* Config: Added all subscript and superscript digits and a few other characters used in maths
+* Config: Removed modification info from top of segment
+* Config: Inverted order of “” in character table
+* Config: Notify user when a segment has comments
+* Script: Updated `pisaconv.groovy` so that it only matches XLIFF files from ETS up to PISA 2022
+* Script: Added `team-project-sync.groovy`, which removes local files not found in repo
+* Script: Added `goto_next_alternative.groovy`, which goes to the next segment with an alternative translation (duh!)
+
 ## Update 77_cs0 (2022-12-19)
 
 * Config: Added default color definition explicit to fix the black-box issue in the View menu

@@ -40,7 +40,7 @@ if (eventType == LOAD) {
 		final def title = 'Team Project Sync';
 		// @todo: does this actually check that the project is a team project?
 		final def msg = 'No team project opened.';
-		showMessageDialog(null, msg, title, INFORMATION_MESSAGE);
+		// showMessageDialog(null, msg, title, INFORMATION_MESSAGE);
 		return;
 	}
 
