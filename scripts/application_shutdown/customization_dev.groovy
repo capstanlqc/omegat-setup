@@ -16,6 +16,9 @@ Todo: add
 
 // groovy.xml.DomBuilder (instead of slurper)
 
+// installDir = new File(System.getProperty("java.class.path")).getAbsoluteFile().getParent()
+// console.println("installDir: " + installDir)
+
 // @todo: user-defined parameter // @todo: input dialog
 repo_url = "https://github.com/capstanlqc/omegat-user-config.git"
 hash_filename = "SHA1SUM"
@@ -479,6 +482,27 @@ console.println("appdata:"+appdata)
 
 local_plugins_dpath = new File(config_dir.toString() + File.separator + "plugins")
 local_scripts_dpath = new File(config_dir.toString() + File.separator + "scripts")
+
+if (! local_plugins_dpath.exists()) {
+	local_plugins_dpath.mkdir()
+}
+
+if (! local_scripts_dpath.exists()) {
+	console.println(local_scripts_dpath.getClass())
+	console.println("local_scripts_dpath (${local_scripts_dpath}) does not exist...")
+	local_scripts_dpath.mkdir()
+	application_shutdown_dpath = local_scripts_dpath + File.separator + "application_shutdown"
+	console.println("Show me the money")
+	console.println(application_shutdown_dpath.getClass())
+	/* application_startup_dpath = local_scripts_dpath + File.separator + "application_startup"
+	project_changed_dpath = local_scripts_dpath + File.separator + "project_changed"
+	application_shutdown_dpath.mkdir()
+	application_startup_dpath.mkdir()
+	project_changed_dpath.mkdir() */
+
+}
+
+
 
 console.println("local_plugins_dpath:"+local_plugins_dpath)
 console.println("local_scripts_dpath:"+local_scripts_dpath)
