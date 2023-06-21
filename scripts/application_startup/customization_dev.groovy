@@ -560,4 +560,5 @@ return
 - add dialog to insert repo URL
 - add linebreak after xml declaration
 - go through all dictories in repo, mkdir() locally for each
+- download uiLayout.xml only the first time
 */
