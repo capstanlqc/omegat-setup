@@ -20,6 +20,7 @@ b2db73bd0e8b1f683014d1c36d8fab79  plugins/okapiFiltersForOmegaT-1.13-1.45.0.jar
 84b4681132955958b567a41d7d92ea11  plugins/plugin-omt-package-1.8.0.jar
 8dca69fab6ce99ce65fc4cc0a0f97a55  README.md
 a05e27f40fb97c29dd639a384b8a405d  scripts/convert_arab2indic_segm.groovy
+e95f06760706aa04642a1d03510f5766  scripts/application_shutdown/customization_dev.groovy
 84305367b2add5c5563ff2863d950d78  scripts/write_source2file.groovy
 ff69dfb43285386890d264f34adf09c8  scripts/write_sel_files2TMXv2.groovy
 766e949781ba00502e920b45c6e20ef5  scripts/convert_indic2arab_global.groovy
@@ -42,7 +43,6 @@ dfdb9248d9eaedc829d362fdfe88d5f1  scripts/write_project2tsv.groovy
 36166c8333f998f7dbb6c4f0e76ffe23  scripts/restore_default_trans.groovy
 7ef07db3fbf3acd3fe03151e9f3f8e8f  scripts/strip_html_tags.groovy
 6055ce5e0cfe55d2e77d182affcda550  scripts/flush_working_tm.groovy
-69485a70d40a3a27f3d02406268b1029  scripts/application_startup/updateConfigBundle.groovy
 41fb46443d43d659aba44469c6bd412e  scripts/application_startup/delete_unneeded_files.groovy
 62f8a643ebd1ffcf891b51778dc37565  scripts/jxl.jar
 8d1c10fc0aa9d9bf1cd5953562e2a011  scripts/check_rules.groovy
@@ -69,7 +69,7 @@ b65965badb8bdb556983f5721795c460  scripts/goto_next_nonunique.groovy
 327da9f7274ce53808d21b2358fc8ef9  scripts/ta_move_notes_to_tmx2source.groovy
 5bef1d92fc5a6a55d77a532d335d0738  scripts/zip_current_project.groovy
 1e13e254fbf4191aec15c225b9bd9d89  scripts/strip_pseudotags.groovy
-2dd056169eab17136b6ab413dd8903d3  SHA1SUM
+c9573f36d74518e8ce26785bf8e7bb2e  SHA1SUM
 bb3881ccdf1814fc73d693194b251d2b  todo.md
 85492dc5e43fef3f040ee24e11c33b23  uiLayout.xml
 bfaec67f273a5e5efb7cb1c686a9ef99  version_notes.txt
