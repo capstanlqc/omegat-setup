@@ -37,7 +37,6 @@ a05b885118d4e3a67752ff2e90d029f5  scripts/copy_source.groovy
 f4c75e3facf9cb16a8652d2b75b9b17b  scripts/clear_source_target_folders.groovy
 66b8fe6ffe9c03ce8fd401be7a1d4332  scripts/replace_strip_tags.groovy
 a96e9985fd63725c07157f25ca6f0522  scripts/updateConfigBundle.groovy
-12bc8cbc6999e9a22cb3936f9e142fd6  scripts/customization.groovy
 dfdb9248d9eaedc829d362fdfe88d5f1  scripts/write_project2tsv.groovy
 2488944ed6a1d75e73ac0f87f460ced9  scripts/remove_redundant_ids_in_tm.groovy
 36166c8333f998f7dbb6c4f0e76ffe23  scripts/restore_default_trans.groovy
@@ -70,7 +69,7 @@ b65965badb8bdb556983f5721795c460  scripts/goto_next_nonunique.groovy
 327da9f7274ce53808d21b2358fc8ef9  scripts/ta_move_notes_to_tmx2source.groovy
 5bef1d92fc5a6a55d77a532d335d0738  scripts/zip_current_project.groovy
 1e13e254fbf4191aec15c225b9bd9d89  scripts/strip_pseudotags.groovy
-094eccf5a41dfd97d4a08b78236cbdb7  SHA1SUM
+2dd056169eab17136b6ab413dd8903d3  SHA1SUM
 bb3881ccdf1814fc73d693194b251d2b  todo.md
 85492dc5e43fef3f040ee24e11c33b23  uiLayout.xml
 bfaec67f273a5e5efb7cb1c686a9ef99  version_notes.txt
