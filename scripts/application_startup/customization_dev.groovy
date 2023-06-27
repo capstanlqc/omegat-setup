@@ -3,7 +3,7 @@
  *  @version: 0.4.2
  *  @author: Manuel Souto Pico
  */
-/* groovylint-disable DuplicateNumberLiteral, DuplicateStringLiteral, ExplicitCallToMinusMethod, FactoryMethodName, ImplicitClosureParameter, Indentation, JavaIoPackageAccess, LineLength, MethodParameterTypeRequired, MethodReturnTypeRequired, NoDef, ParameterName, ReturnNullFromCatchBlock, SpaceAfterComma, SpaceAfterNotOperator, SpaceAroundOperator, SpaceInsideParentheses, UnnecessaryGString, UnnecessaryGetter, VariableName, VariableTypeRequired */
+/* groovylint-disable CompileStatic, DuplicateNumberLiteral, DuplicateStringLiteral, ExplicitCallToMinusMethod, FactoryMethodName, ImplicitClosureParameter, JavaIoPackageAccess, LineLength, MethodParameterTypeRequired, MethodReturnTypeRequired, NoDef, ParameterName, UnnecessaryGString, UnnecessaryGetter, VariableName, VariableTypeRequired */
 
 /*
  * Preconditions (readme)
@@ -57,7 +57,7 @@ import static groovy.io.FileType.FILES
 import groovy.xml.XmlParser
 
 // the script starts here if a project is open
-console.println("="*40 + "\n" + " "*5 + title + "\n" + "="*40)
+console.println("=" * 40 + "\n" + " " * 5 + title + "\n" + "=" * 40)
 
 // def tgt_code =             project.projectProperties.targetLanguage
 // def src_code =             project.projectProperties.sourceLanguage
@@ -74,16 +74,16 @@ def get_local_hash_list(location, remote_file_list) {
     local_config_dir.traverse(type: FILES, maxDepth: 2) { it ->
         // @todo: should this be done asynchronously perhaps?
 
-        def win_rel_path = local_config_dir.toPath().relativize( it.toPath() ).toFile()
+        def win_rel_path = local_config_dir.toPath().relativize(it.toPath()).toFile()
         def unix_rel_path = FilenameUtils.separatorsToUnix(win_rel_path.toString())
 
         // String asset_name = abs_path.getFileName()
         // call getFileName() and get FileName as a string
 
         if (remote_file_list.contains(unix_rel_path)) {
-            message.add(unix_rel_path+": found remotely")
+            message.add(unix_rel_path + ": found remotely")
             // https://128bit.io/2011/02/17/md5-hashing-in-python-ruby-and-groovy/
-            def asset_hash = new BigInteger(1,digest.digest(it.getBytes())).toString(16).padLeft(32,"0")
+            def asset_hash = new BigInteger(1, digest.digest(it.getBytes())).toString(16).padLeft(32, "0")
             // console.println(asset_hash + " <= " + unix_rel_path)
             local_file_hash_map.put(unix_rel_path, asset_hash)
         }
@@ -101,24 +101,23 @@ def fetch_hash_list(hash_list_url) {
         // last_modif will stay an empty array
         console.println("!! Unable to download hash list: " + e.message) // @debug
         message.add("!! Unable to download hash list: " + e.message)
-        return // stop script if list of hashes not available?? or just download everything found?
+        // stop script if list of hashes not available?? or just download everything found?
     }
+    return null
 }
 
-def download_asset(remote_file_urlstr) {
+def download_asset(URL url) {
     console.println("-----------------------") // @debug
-
-    URL url = new URL(remote_file_urlstr)
-    console.println("url: ${url}")
+    console.println("download_asset: ${url}")
 
     def remote_file_name = FilenameUtils.getName(url.getPath()) // -> file.xml
-    console.println("remote_file_name: " +remote_file_name)
+    console.println("remote_file_name: " + remote_file_name)
 
     def file_location_rel_path_str = remote_file_urlstr.takeAfter('/master/').toString()
-    console.println("file_location_rel_path_str: " +file_location_rel_path_str)
+    console.println("file_location_rel_path_str: " + file_location_rel_path_str)
 
     def location = config_dir + file_location_rel_path_str
-    def local_path_to_location = ( os_is_windows ? FilenameUtils.separatorsToWindows(location) : location )
+    def local_path_to_location = (os_is_windows ? FilenameUtils.separatorsToWindows(location) : location)
 
     message.add(">> DOWNLOAD " + remote_file_name + " to " + file_location_rel_path_str)
     console.println(">> DOWNLOAD " + remote_file_name + " to " + file_location_rel_path_str) // @debug
@@ -126,7 +125,7 @@ def download_asset(remote_file_urlstr) {
     try {
         // def url = repo_url + "files/" + remote_file_name
         def location_file = new File(local_path_to_location.toString())
-        console.println("%% location_file: "+ location_file)
+        console.println("%% location_file: " + location_file)
         location_file.withOutputStream { output_stream  ->
             def conn = url.openConnection()
             output_stream << conn.inputStream
@@ -134,7 +133,6 @@ def download_asset(remote_file_urlstr) {
     } catch (IOException e) {
         message.add("!! Unable to download file: " + e.message)
         console.println("!! Unable to download file: " + e.message)
-        return
     }
 }
 
@@ -194,14 +192,14 @@ def fetch_plugins_by_name(local_file_hash_map, remote_plugins) {
     // create plugins folder if it doesn't exist
     console.println("local_plugins_dpath: ${local_plugins_dpath}")
 
-    if (! local_plugins_dpath.exists()) {
+    if (!local_plugins_dpath.exists()) {
         local_plugins_dpath.mkdir()
     }
 
     console.println("=======================")
     // fetch plugins' jar files (comparing remote to local filenames)
     remote_plugins.each { plugin ->
-        console.println("remote plugin: "+plugin)
+        console.println("remote plugin: " + plugin)
         def downloaded = local_file_hash_map.containsKey(plugin)
         if (!downloaded) {
             console.println("Will delete older versions of plugin ${plugin}")
@@ -210,9 +208,9 @@ def fetch_plugins_by_name(local_file_hash_map, remote_plugins) {
             console.println("I will now download plugin ${plugin} from ${remote_config_dir}")
 
             // function to create github_raw_file_url (remote_config_dir, file_relpath)
-            def github_raw_file_url = get_remote_file_url(repo_url, plugin)
+            URL github_raw_file_url = get_remote_file_url(repo_url, plugin)
 
-            console.println("github_raw_file_url: "+github_raw_file_url)
+            console.println("github_raw_file_url: " + github_raw_file_url)
 
             download_asset(github_raw_file_url)
             console.println("++ Remote config file " + plugin + " downloaded to " + local_plugins_dpath) // @debug
@@ -226,13 +224,11 @@ def fetch_plugins_by_name(local_file_hash_map, remote_plugins) {
     }
 }
 
-def get_omegat_prefs(omegat_prefs_fpath) {
-    // parse local prefs file
-    def omegat_prefs_data = new XmlParser().parse(omegat_prefs_fpath)
-    def omegat_prefs_map = omegat_prefs_data.preference[0].children().collectEntries { node ->
-        [(node.name()):(node.text())]
+/** Read the omegat.prefs and return a map with the preferences. */
+Map<String, String> get_omegat_prefs(File omegatPrefs) {
+    return new XmlParser().parse(omegatPrefs).preference[0].children().collectEntries { node ->
+        [(node.name()): (node.text())]
     }
-    return omegat_prefs_map
 }
 
 def fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
@@ -256,57 +252,28 @@ def fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
                     // download
                     console.println("remote_config_dir + remote_file_name: " + remote_config_dir + File.separator + remote_file_name)
 
-                    remote_file_url = get_remote_file_url(remote_config_dir, remote_file_name)
+                    URL remote_file_url = get_remote_file_url(remote_config_dir, remote_file_name)
                     // download_asset(remote_file_url)
                     if (remote_file_name == "omegat.prefs") {
                         console.println("<<<< HANDLING OMEGAT PREFS >>>>>")
 
                         // parse local prefs file
-                        local_omegat_prefs_fpath = config_dir + "omegat.prefs"
-                        local_prefs_map = get_omegat_prefs(local_omegat_prefs_fpath)
-                        // local_prefs_map.each { console.println("::: file: ${it.key} => hash: ${it.value}") } // @debug
+                        //File localPrefsPath = new File(configDir, 'omegat.prefs') // @debug
+                        //console.println('localPrefsPath  : ' + localPrefsPath) // @debug
+                        //get_omegat_prefs(localPrefsPath).each { prop -> console.println(":::   local: ${prop.key} => ${prop.value}") } // @debug
 
                         // download_asset(remote_file_url)
                         // parse remote prefs file
-                        remote_prefs_map = get_omegat_prefs(local_omegat_prefs_fpath)
-                        // add local keys not found in remote file
-                        def merged_prefs_map = local_prefs_map + remote_prefs_map // second map overrides first map
+                        File remotePrefsPath = new File(remote_config_dir, remote_file_name)
+                        console.println('remotePrefsPath : ' + remotePrefsPath)
+                        Map<String, String> remotePrefs = get_omegat_prefs(remotePrefsPath)
+                        //remotePrefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
 
-                        // edit scripts path
-                        merged_prefs_map["scripts_dir"] = local_scripts_dpath
+                        // Update current preferences and save
+                        remotePrefs.each { prop -> Preferences.setPreference(prop.key, prop.value) }
+                        Preferences.save()
 
-                        temp_local_omegat_prefs_fpath = local_omegat_prefs_fpath // + ".xml"
-
-                        // write prefs file (ref: https://blog.mrhaki.com/2009/10/groovy-goodness-creating-xml-with.html)
-                        def builder = new StreamingMarkupBuilder()
-                        builder.encoding = 'UTF-8'
-                        def omegat = builder.bind {
-                            mkp.xmlDeclaration()
-                            mkp.yield("\r\n")
-                            omegat() {
-                                preference(version: 1.0) {
-                                     merged_prefs_map.collect { k, v ->
-                                        "$k" "$v"
-                                    }
-                                }
-                            }
-                        }
-
-                        def xml_string = XmlUtil.serialize(omegat)
-                        // temp_local_omegat_prefs_fpath << XmlUtil.serialize(omegat)
-
-                        // writing xml in file
-                        console.println("// writing xml in file ${temp_local_omegat_prefs_fpath}")
-
-                        def output = new FileWriter(temp_local_omegat_prefs_fpath)
-                        // output << builder.bind( writer.toString() )
-                        output.withWriter { w ->
-                            w.write(xml_string) // Use the serialized XML string obtained earlier
-                        }
-                        // @todo: add linebreak after xml declaration
-                        // https://stackoverflow.com/a/10468559/2095577
-
-                           console.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                        console.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
                     } else {
                         download_asset(remote_file_url)
                     }
@@ -319,14 +286,13 @@ def fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
             message.add("++ Remote custom file " + remote_file_name + " is new or had not been downloaded, downloading now.")
             console.println("++ Remote custom file " + remote_file_name + " is new or had not been downloaded, downloading now.")
             // download
-            remote_file_url = get_remote_file_url(remote_config_dir, remote_file_name)
-            download_asset(remote_file_url)
+            download_asset(get_remote_file_url(remote_config_dir, remote_file_name))
             // download_asset(remote_config_dir + File.separator + remote_file_name)
         }
     }
 }
 
-def get_remote_file_url(repo_url, file) {
+URL get_remote_file_url(repo_url, file) {
     // @todo: some checks to ensure the input repo_url looks good.
     // what if it starts with git?
     // what if it's for azure or aws but not github?
@@ -336,24 +302,24 @@ def get_remote_file_url(repo_url, file) {
     // if starts with https://github.com
     def org  = repo_url.minus("https://github.com/").minus(".git").split('/')[0]
     def repo = repo_url.minus("https://github.com/").minus(".git").split('/')[1]
-    return "https://raw.githubusercontent.com/${org}/${repo}/master/${file}"
+
+    return new URL("https://raw.githubusercontent.com/${org}/${repo}/master/${file}")
 }
 
 def create_directory(directory_path) {
-    if (! directory_path.exists()) {
+    if (!directory_path.exists()) {
         directory_path.mkdir()
     }
 }
 
 def main() {
-    def hash_list_url = get_remote_file_url(repo_url, hash_filename)
+    URL hash_list_url = get_remote_file_url(repo_url, hash_filename)
     // expected, e.g. https://raw.githubusercontent.com/capstanlqc/omegat-user-config/master/SHA1SUM
 
-    console.println("hash_filename: "+hash_filename)
+    console.println("hash_filename: " + hash_filename)
     console.println(hash_list_url)
 
     def hash_list = fetch_hash_list(hash_list_url) // class: java.util.ArrayList
-    assert hash_list.class == java.util.ArrayList
 
     if (!hash_list) {
         message.add("!!! No hash list found, unable to continue.")
@@ -381,7 +347,7 @@ def main() {
 
     // get list of plugins
     def remote_plugins_list = (remote_file_hash_map.findAll { it.key.startsWith("plugins/") }).keySet()
-    console.println("remote_plugins: "+remote_plugins_list)
+    console.println("remote_plugins: " + remote_plugins_list)
     fetch_plugins_by_name(local_file_hash_map, remote_plugins_list)
 
     // get map of the rest of config files (config and scripts), excluding plugins
@@ -397,11 +363,11 @@ def main() {
 // OS
 os_is_windows = System.properties['os.name'].toLowerCase().contains('windows')
 
-    if (os_is_windows) {
-        console.println("OS is Windows")
-    } else {
-        console.println("OS is not Windows")
-    }
+if (os_is_windows) {
+    console.println("OS is Windows")
+} else {
+    console.println("OS is not Windows")
+}
 
 // init
 message = []
@@ -413,18 +379,18 @@ digest = MessageDigest.getInstance("MD5")
 
 // if omegat internals are available
 config_dir = StaticUtils.getConfigDir()
-console.println("config_dir"+config_dir)
+console.println("config_dir" + config_dir)
 // @q&a: could omegat internals not be avaiable?
 
 // otherwise:
 // if OmegaT is not running
 omegat_appdata = System.getenv("APPDATA") + File.separator + "OmegaT"
-appdata = ( System.properties['os.name'].toLowerCase().contains('windows') ?  omegat_appdata : "~/.omegat" )
+appdata = (System.properties['os.name'].toLowerCase().contains('windows') ?  omegat_appdata : "~/.omegat")
 // e.g. C:\Users\souto\AppData\Roaming\OmegaT
 // @todo: get userConfigDir by from OmegaT internals
 
-console.println("omegat_appdata:"+omegat_appdata)
-console.println("appdata:"+appdata)
+console.println("omegat_appdata:" + omegat_appdata)
+console.println("appdata:" + appdata)
 
 local_plugins_dpath = new File(config_dir.toString() + File.separator + "plugins")
 local_scripts_dpath = new File(config_dir.toString() + File.separator + "scripts")
@@ -435,8 +401,8 @@ new File(local_scripts_dpath.toString() + File.separator + "application_shutdown
 new File(local_scripts_dpath.toString() + File.separator + "application_startup").mkdir()
 new File(local_scripts_dpath.toString() + File.separator + "project_changed").mkdir()
 
-console.println("local_plugins_dpath:"+local_plugins_dpath)
-console.println("local_scripts_dpath:"+local_scripts_dpath)
+console.println("local_plugins_dpath:" + local_plugins_dpath)
+console.println("local_scripts_dpath:" + local_scripts_dpath)
 
 def url_to_path = {
     it.endsWith('.git') ? it.minus('.git') : it
@@ -450,7 +416,7 @@ main()
 
 no_updates_msg = "All custom files were already up to date, nothing downloaded."
 // message.each { line -> console.println(line) }
-console.println( !message.empty ? message.join('\n') : no_updates_msg )
+console.println(!message.empty ? message.join('\n') : no_updates_msg)
 console.println("Done!")
 
 return
