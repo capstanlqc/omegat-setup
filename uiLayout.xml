@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <VLDocking version="2.1">
 <DockingDesktop name="">
-<DockingPanel x="2665" y="37" width="1115" height="1043">
-<Split orientation="1" location="0.6545123062898814">
-<Split orientation="0" location="0.4956140350877193">
+<DockingPanel x="2220" y="70" width="1177" height="887">
+<Split orientation="1" location="0.5849870578084556">
+<Split orientation="0" location="0.544973544973545">
 <Dockable>
 <Key dockName="EDITOR"/>
 </Dockable>
@@ -11,8 +11,8 @@
 <Key dockName="MATCHES"/>
 </Dockable>
 </Split>
-<Split orientation="0" location="0.6820175438596491">
-<Split orientation="0" location="0.5032362459546925">
+<Split orientation="0" location="0.6666666666666666">
+<Split orientation="0" location="0.45">
 <Dockable>
 <Key dockName="SEGMENTPROPERTIES"/>
 </Dockable>
@@ -37,11 +37,11 @@
 </Dockable>
 <Dockable>
 <Key dockName="NOTES"/>
-<RelativePosition x="0.003342245938256383" y="0.005359056871384382" w="0.2506684362888336" h="0.1886388063430786" />
+<RelativePosition x="0.003342245938256383" y="0.005359056871384382" w="0.34558823704719543" h="0.25294747948646545" />
 </Dockable>
 <Dockable>
 <Key dockName="GLOSSARY"/>
-<RelativePosition x="0.003342245938256383" y="0.005359056871384382" w="0.2506684362888336" h="0.9892818927764893" />
+<RelativePosition x="0.003342245938256383" y="0.005359056871384382" w="0.34558823704719543" h="0.9892818927764893" />
 </Dockable>
 </Border>
 <TabGroups>
