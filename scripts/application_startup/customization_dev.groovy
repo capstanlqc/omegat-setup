@@ -50,11 +50,13 @@ console.println(repo_url)
 // import org.omegat.core.events.IProjectEventListener.PROJECT_CHANGE_TYPE
 title = "Customization"
 
-import org.apache.commons.io.FilenameUtils
-import java.security.MessageDigest
-import org.omegat.util.StaticUtils
-import static groovy.io.FileType.FILES
 import groovy.xml.XmlParser
+import java.security.MessageDigest
+import org.apache.commons.io.FilenameUtils
+import org.omegat.util.Preferences
+import org.omegat.util.StaticUtils
+
+import static groovy.io.FileType.FILES
 
 // the script starts here if a project is open
 console.println("=" * 40 + "\n" + " " * 5 + title + "\n" + "=" * 40)
@@ -92,11 +94,10 @@ def get_local_hash_list(location, remote_file_list) {
     return local_file_hash_map
 }
 
-def fetch_hash_list(hash_list_url) {
+List<String> fetch_hash_list(URL hash_list_url) {
     try {
         // def local_path = new File(config_dir.toString() + File.separator + "asset_hashlist.txt")
-        def url = new URL(hash_list_url).openConnection()
-        return url.inputStream.readLines()
+        return hash_list_url.openConnection().inputStream.readLines()
     }  catch (IOException e) {
         // last_modif will stay an empty array
         console.println("!! Unable to download hash list: " + e.message) // @debug
@@ -106,14 +107,14 @@ def fetch_hash_list(hash_list_url) {
     return null
 }
 
-def download_asset(URL url) {
+void download_asset(URL url) {
     console.println("-----------------------") // @debug
     console.println("download_asset: ${url}")
 
     def remote_file_name = FilenameUtils.getName(url.getPath()) // -> file.xml
     console.println("remote_file_name: " + remote_file_name)
 
-    def file_location_rel_path_str = remote_file_urlstr.takeAfter('/master/').toString()
+    def file_location_rel_path_str = url.toString().takeAfter('/master/').toString()
     console.println("file_location_rel_path_str: " + file_location_rel_path_str)
 
     def location = config_dir + file_location_rel_path_str
@@ -136,7 +137,7 @@ def download_asset(URL url) {
     }
 }
 
-def delete_old_plugins(new_jar_relpath, local_plugins_dpath) {
+void delete_old_plugins(new_jar_relpath, local_plugins_dpath) {
     // This function must delete other versions of the new plugin
     console.println("hello1")
 
@@ -165,6 +166,10 @@ def delete_old_plugins(new_jar_relpath, local_plugins_dpath) {
         if (os_is_windows) {
             // @todo: do some ugly shitty black magic to byass the OS's lock and delete the file on Windows
             // tip: kill omegat first, see kos' script: https://github.com/capstanlqc/omegat-customization/blob/89a62fc25ba8f359b9538b992f7de1c12fbc2332/scripts/updateConfigBundle.groovy#L304
+
+            // Hopefully, with RFE#1159 in, there's no need to delete obsolete jar as they 
+            // won't be loaded by the application.
+            console.prinln('Windows has issues with deleting files, sorry!')
         } else {
             console.println("Congratulations on your OS choice! :P")
             // def file = new File(it)
@@ -177,7 +182,7 @@ def delete_old_plugins(new_jar_relpath, local_plugins_dpath) {
     }
 }
 
-def fetch_plugins_by_name(local_file_hash_map, remote_plugins) {
+void fetch_plugins_by_name(Map local_file_hash_map, remote_plugins) {
     /*
         While it's possible to know whether there's a new version of the rest of config files by
         comparing the hash of the local and remote versions, in the case of plugins (jar files)
@@ -201,25 +206,27 @@ def fetch_plugins_by_name(local_file_hash_map, remote_plugins) {
     remote_plugins.each { plugin ->
         console.println("remote plugin: " + plugin)
         def downloaded = local_file_hash_map.containsKey(plugin)
-        if (!downloaded) {
-            console.println("Will delete older versions of plugin ${plugin}")
-            delete_old_plugins(plugin, local_plugins_dpath)
-            // make path to github raw file
-            console.println("I will now download plugin ${plugin} from ${remote_config_dir}")
-
-            // function to create github_raw_file_url (remote_config_dir, file_relpath)
-            URL github_raw_file_url = get_remote_file_url(repo_url, plugin)
-
-            console.println("github_raw_file_url: " + github_raw_file_url)
-
-            download_asset(github_raw_file_url)
-            console.println("++ Remote config file " + plugin + " downloaded to " + local_plugins_dpath) // @debug
-            message.add("++ Remote config file " + plugin + " downloaded to " + local_plugins_dpath)
-        } else {
+        if (downloaded) {
             // strange output if this line is not commented...
             console.println("== Config file " + plugin + " was already up to date") // @debug
             message.add("== Config file " + plugin + " was already up to date")
+            return
         }
+
+        console.println("Will delete older versions of plugin ${plugin}")
+        delete_old_plugins(plugin, local_plugins_dpath)
+        // make path to github raw file
+        console.println("I will now download plugin ${plugin} from ${remote_config_dir}")
+
+        // function to create github_raw_file_url (remote_config_dir, file_relpath)
+        URL github_raw_file_url = get_remote_file_url(repo_url, plugin)
+
+        console.println("github_raw_file_url: " + github_raw_file_url)
+
+        download_asset(github_raw_file_url)
+        console.println("++ Remote config file " + plugin + " downloaded to " + local_plugins_dpath) // @debug
+        message.add("++ Remote config file " + plugin + " downloaded to " + local_plugins_dpath)
+
         console.println("------------------------")
     }
 }
@@ -231,7 +238,7 @@ Map<String, String> get_omegat_prefs(File omegatPrefs) {
     }
 }
 
-def fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
+void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
     // get other custom files (compare remote to local hashes)
     remote_file_hash_map.each {
         remote_file_name = it.key
@@ -258,15 +265,16 @@ def fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
                         console.println("<<<< HANDLING OMEGAT PREFS >>>>>")
 
                         // parse local prefs file
-                        //File localPrefsPath = new File(configDir, 'omegat.prefs') // @debug
+                        File localPrefsPath = new File(config_dir, 'omegat.prefs') // @debug
                         //console.println('localPrefsPath  : ' + localPrefsPath) // @debug
                         //get_omegat_prefs(localPrefsPath).each { prop -> console.println(":::   local: ${prop.key} => ${prop.value}") } // @debug
 
-                        // download_asset(remote_file_url)
-                        // parse remote prefs file
-                        File remotePrefsPath = new File(remote_config_dir, remote_file_name)
-                        console.println('remotePrefsPath : ' + remotePrefsPath)
-                        Map<String, String> remotePrefs = get_omegat_prefs(remotePrefsPath)
+                        // Overwrite the omegat.prefs file with the remote one
+                        // the actual preferences are not yet updated!
+                        download_asset(remote_file_url)
+
+                        // parse (now) local prefs file
+                        Map<String, String> remotePrefs = get_omegat_prefs(localPrefsPath)
                         //remotePrefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
 
                         // Update current preferences and save
@@ -306,9 +314,9 @@ URL get_remote_file_url(repo_url, file) {
     return new URL("https://raw.githubusercontent.com/${org}/${repo}/master/${file}")
 }
 
-def create_directory(directory_path) {
+void make_directory(directory_path) {
     if (!directory_path.exists()) {
-        directory_path.mkdir()
+        directory_path.mkdirs()
     }
 }
 
@@ -395,8 +403,8 @@ console.println("appdata:" + appdata)
 local_plugins_dpath = new File(config_dir.toString() + File.separator + "plugins")
 local_scripts_dpath = new File(config_dir.toString() + File.separator + "scripts")
 
-create_directory(local_plugins_dpath)
-create_directory(local_scripts_dpath)
+make_directory(local_plugins_dpath)
+make_directory(local_scripts_dpath)
 new File(local_scripts_dpath.toString() + File.separator + "application_shutdown").mkdir()
 new File(local_scripts_dpath.toString() + File.separator + "application_startup").mkdir()
 new File(local_scripts_dpath.toString() + File.separator + "project_changed").mkdir()
