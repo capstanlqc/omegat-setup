@@ -1,18 +1,27 @@
 /* :name = Custom User Configuration DEV (for 6.1.0) :description =Customize OmegaT including optimized configuration, scripts and plugins
  *
- *  @version: 0.4.2
- *  @author: Manuel Souto Pico
+ *  @version: 0.5.3
+ *  @author: Manuel Souto Pico, Briac Pilpré, Kos Ivantsov
  */
 /* groovylint-disable CompileStatic, DuplicateNumberLiteral, DuplicateStringLiteral, ExplicitCallToMinusMethod, FactoryMethodName, ImplicitClosureParameter, JavaIoPackageAccess, LineLength, MethodParameterTypeRequired, MethodReturnTypeRequired, NoDef, ParameterName, UnnecessaryGString, UnnecessaryGetter, VariableName, VariableTypeRequired */
 
 /*
  * Preconditions (readme)
  * =============
- * Repository that contains the contents of the user configuration folder (e.g. ~/.omegat)
+ * Repository that contains the contents of the us1er configuration folder (e.g. ~/.omegat)
  * OmegaT version: ^6.1.0
 
 Todo: add
 - how to update the SHA1SUM file
+*/
+
+/*
+ * @changes:
+ * @0.5.2:
+ * - preferences saved on the fly, no need to kill OmegaT
+ * - update in OmegaT [RFE#1159]: no need to kill OmegaT to remove older jar files
+ * @0.5.3:
+ * - update scripts_dir in preferences with value of path to user config dir
 */
 
 // groovy.xml.DomBuilder (instead of slurper)
@@ -298,7 +307,11 @@ void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
 void update_omegat_prefs(localPrefsPath) {
     // parse (now) local prefs file
     Map<String, String> remotePrefs = get_omegat_prefs(localPrefsPath)
-    //remotePrefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
+    remotePrefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
+
+    console.println(" I will set scripts_dir to '${local_scripts_dpath}'")
+    remotePrefs.scripts_dir = local_scripts_dpath
+    remotePrefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
 
     // Try to guess the property type, Boolean, Integer or String
     remotePrefs.each { prop ->
@@ -464,8 +477,8 @@ return
  * How to create sha1sum file:
  * 1. Clone repo
  * 2. Make updates
- * 3. Delete file "sha1sum"
- * 4. find * -type f -exec sha1sum {} >> sha1sum \;
+ * 3. Delete file SHA1SUM
+ * 4. find * -type f -exec sha1sum {} >> SHA1SUM \;
  * 5. git add . && git commit -m "Updated foo and bar" && git push
 
  */
