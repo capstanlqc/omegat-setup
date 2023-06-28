@@ -11,3 +11,4 @@ scripts/restore_default_trans_cli.groovy
 scripts/clear_working_tm.groovy
 assets/creds.txt
 assets/step.txt
+SHA1SUM
