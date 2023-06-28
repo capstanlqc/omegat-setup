@@ -192,7 +192,7 @@ void delete_old_plugins(new_jar_relpath, local_plugins_dpath) {
             // @todo: do some ugly shitty black magic to byass the OS's lock and delete the file on Windows
             // tip: kill omegat first, see kos' script: https://github.com/capstanlqc/omegat-customization/blob/89a62fc25ba8f359b9538b992f7de1c12fbc2332/scripts/updateConfigBundle.groovy#L304
 
-            // Hopefully, with RFE#1159 in, there's no need to delete obsolete jar as they 
+            // Hopefully, with RFE#1159 in, there's no need to delete obsolete jar as they
             // won't be loaded by the application.
             console.prinln('Windows has issues with deleting files, sorry!')
         } else {
@@ -303,18 +303,7 @@ void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
                         // the actual preferences are not yet updated!
                         download_asset(remote_file_url)
 
-                        // parse (now) local prefs file
-                        Map<String, String> remotePrefs = get_omegat_prefs(localPrefsPath)
-                        remotePrefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
-                        console.println(" I will set scripts_dir to '${local_scripts_dpath}'")
-                        remotePrefs.scripts_dir = local_scripts_dpath
-                        remotePrefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
-
-
-                        // Update current preferences and save
-                        remotePrefs.each { prop -> Preferences.setPreference(prop.key, prop.value) }
-                        Preferences.save()
-
+                        update_omegat_prefs(localPrefsPath)
                         console.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
                     } else {
                         download_asset(remote_file_url)
@@ -332,6 +321,30 @@ void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
             // download_asset(remote_config_dir + File.separator + remote_file_name)
         }
     }
+}
+
+// Update current preferences from a file and save them.
+void update_omegat_prefs(localPrefsPath) {
+    // parse (now) local prefs file
+    Map<String, String> remotePrefs = get_omegat_prefs(localPrefsPath)
+    remotePrefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
+
+    console.println(" I will set scripts_dir to '${local_scripts_dpath}'")
+    remotePrefs.scripts_dir = local_scripts_dpath
+    remotePrefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
+
+    // Try to guess the property type, Boolean, Integer or String
+    remotePrefs.each { prop ->
+        if (prop.value == "true" || prop.value == "false") {
+            Preferences.setPreference(prop.key, prop.value.toBoolean())
+        } else if (prop.value.isInteger()) {
+            Preferences.setPreference(prop.key, prop.value.toInteger())
+        } else {
+            Preferences.setPreference(prop.key, prop.value)
+        }
+    }
+
+    Preferences.save()
 }
 
 URL get_remote_file_url(repo_url, file) {
@@ -458,7 +471,7 @@ main()
 
 no_updates_msg = "All custom files were already up to date, nothing downloaded."
 // message.each { line -> console.println(line) }
-console.println(!message.empty ? message.join('\n') : no_updates_msg)
+console.println(message.empty ? no_updates_msg : message.join('\n'))
 console.println("Done!")
 
 return
