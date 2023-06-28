@@ -1,6 +1,6 @@
-/* :name = Custom User Configuration DEV (for 6.1.0) :description =Customize OmegaT including optimized configuration, scripts and plugins
+/* :name = Custom User Configuration DEV2 (for 6.1.0) :description =Customize OmegaT including optimized configuration, scripts and plugins
  *
- *  @version: 0.5.3
+ *  @version: 0.5.4
  *  @author: Manuel Souto Pico, Briac Pilpré, Kos Ivantsov
  */
 /* groovylint-disable CompileStatic, DuplicateNumberLiteral, DuplicateStringLiteral, ExplicitCallToMinusMethod, FactoryMethodName, ImplicitClosureParameter, JavaIoPackageAccess, LineLength, MethodParameterTypeRequired, MethodReturnTypeRequired, NoDef, ParameterName, UnnecessaryGString, UnnecessaryGetter, VariableName, VariableTypeRequired */
@@ -11,8 +11,6 @@
  * Repository that contains the contents of the us1er configuration folder (e.g. ~/.omegat)
  * OmegaT version: ^6.1.0
 
-Todo: add
-- how to update the SHA1SUM file
 */
 
 /*
@@ -22,6 +20,8 @@ Todo: add
  * - update in OmegaT [RFE#1159]: no need to kill OmegaT to remove older jar files
  * @0.5.3:
  * - update scripts_dir in preferences with value of path to user config dir
+ * @0.5.4:
+ * - create parent directory of new custom files
 */
 
 // groovy.xml.DomBuilder (instead of slurper)
@@ -31,7 +31,7 @@ Todo: add
 
 // @todo: user-defined parameter // @todo: input dialog
 repo_url = "https://github.com/capstanlqc/omegat-user-config.git"
-hash_filename = "SHA1SUM"
+hash_filename = "remote.md5"
 
 if (!repo_url) {
     console.println("No URL for the remote location defined.")
@@ -48,7 +48,7 @@ console.println(repo_url)
   *  0.4.0: domain entered by user or read from properties
   *  0.5.0: copy scripts from install_dir/scripts
   *  0.6.0: edit
-  *  0.6.0: delete plugins from install_dir/scripts
+  *  0.6.0: delete plugins from install_dir/scripts <=== ¿¿¿¿?????
   *  0.6.0: add prompt to user to delete old plugins manually (for Windows)
   *  0.7.0: get %APPDATA% for execution by OmegaT.
   *  0.8.0: prompt the user to restart OmegaT to use the latest files
@@ -93,9 +93,13 @@ def get_local_hash_list(location, remote_file_list) {
 
         if (remote_file_list.contains(unix_rel_path)) {
             message.add(unix_rel_path + ": found remotely")
+
+
+
+
             // https://128bit.io/2011/02/17/md5-hashing-in-python-ruby-and-groovy/
             def asset_hash = new BigInteger(1, digest.digest(it.getBytes())).toString(16).padLeft(32, "0")
-            // console.println(asset_hash + " <= " + unix_rel_path)
+            console.println(asset_hash + " <= " + unix_rel_path)
             local_file_hash_map.put(unix_rel_path, asset_hash)
         }
     }
@@ -117,6 +121,8 @@ List<String> fetch_hash_list(URL hash_list_url) {
 }
 
 void download_asset(URL url) {
+
+    // @ŧodo: check if the file exists online, if it does not, return
     console.println("-----------------------") // @debug
     console.println("download_asset: ${url}")
 
@@ -129,14 +135,20 @@ void download_asset(URL url) {
     def location = config_dir + file_location_rel_path_str
     def local_path_to_location = (os_is_windows ? FilenameUtils.separatorsToWindows(location) : location)
 
+    console.println("local_path_to_location: " + local_path_to_location)
+
     message.add(">> DOWNLOAD " + remote_file_name + " to " + file_location_rel_path_str)
     console.println(">> DOWNLOAD " + remote_file_name + " to " + file_location_rel_path_str) // @debug
 
     try {
         // def url = repo_url + "files/" + remote_file_name
-        def location_file = new File(local_path_to_location.toString())
-        console.println("%% location_file: " + location_file)
-        location_file.withOutputStream { output_stream  ->
+        def local_file = new File(local_path_to_location.toString())
+        
+        // create parent folder
+        local_file.getParentFile().mkdirs()
+        
+        console.println("%% local_file: " + local_file)
+        local_file.withOutputStream { output_stream  ->
             def conn = url.openConnection()
             output_stream << conn.inputStream
         }
@@ -147,6 +159,10 @@ void download_asset(URL url) {
 }
 
 void delete_old_plugins(new_jar_relpath, local_plugins_dpath) {
+
+    // check org.apache.commons.io.FileUtils.forceDeleteOnExit
+    // https://github.com/omegat-org/omegat/blob/47c9177ac2a653746f2aacc3aa48745c6182d062/src/org/omegat/util/PluginInstaller.java#L138
+
     // This function must delete other versions of the new plugin
     console.println("hello1")
 
@@ -257,7 +273,12 @@ void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
         def downloaded = local_file_hash_map.containsKey(remote_file_name)
         if (downloaded) {
             def local_asset_hash = local_file_hash_map.find { it.key == remote_file_name }?.value
+
             if (local_asset_hash) {
+                console.println("/////////////////////////////////////////")
+                console.println(">> remote_file_name: " + remote_file_name)
+                console.println(">> local_asset_hash: " + local_asset_hash)
+                console.println(">> remote_file_hash: " + remote_file_hash)
                 if (local_asset_hash == remote_file_hash) {
                     message.add("== Remote custom file ${remote_file_name} hasn't changed, the local copy is up to date.")
                     // console.println("== Remote custom file ${remote_file_name} hasn't changed, the local copy is up to date.")
@@ -283,7 +304,6 @@ void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
                         download_asset(remote_file_url)
 
                         update_omegat_prefs(localPrefsPath)
-
                         console.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
                     } else {
                         download_asset(remote_file_url)
@@ -478,8 +498,15 @@ return
  * 1. Clone repo
  * 2. Make updates
  * 3. Delete file SHA1SUM
- * 4. find * -type f -exec sha1sum {} >> SHA1SUM \;
+ * 4. find * -type f -exec md5sum {} >> SHA1SUM \;
  * 5. git add . && git commit -m "Updated foo and bar" && git push
+
+
+man md5sum:
+Print or check MD5 (128-bit) checksums.
+The sums are computed as described in RFC 1321.  
+
+
 
  */
 
@@ -493,4 +520,7 @@ return
 - add linebreak after xml declaration
 - go through all dictories in repo, mkdir() locally for each
 - download uiLayout.xml only the first time
+- delete files in files_to_delete.txt from this script
+- add dialog after execution with buttons: Quit, Restart, Cancel
+- omegat.prefs: compare hash value in remote.md5 with hash value in local.md5
 */
