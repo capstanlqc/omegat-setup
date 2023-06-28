@@ -335,9 +335,9 @@ void update_omegat_prefs(localPrefsPath) {
 
     // Try to guess the property type, Boolean, Integer or String
     remotePrefs.each { prop ->
-        if (prop instanceof Boolean) {
+        if (prop.value == "true" || prop.value == "false") {
             Preferences.setPreference(prop.key, prop.value.toBoolean())
-        } else if (prop instanceof Integer) {
+        } else if (prop.value.isInteger()) {
             Preferences.setPreference(prop.key, prop.value.toInteger())
         } else {
             Preferences.setPreference(prop.key, prop.value)
