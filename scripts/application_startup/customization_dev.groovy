@@ -330,7 +330,7 @@ void update_omegat_prefs(localPrefsPath) {
     remotePrefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
 
     console.println(" I will set scripts_dir to '${local_scripts_dpath}'")
-    remotePrefs.scripts_dir = local_scripts_dpath.toString()
+    remotePrefs.put('scripts_dir', local_scripts_dpath.getAbsolutePath())
     remotePrefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
 
     // Try to guess the property type, Boolean, Integer or String
