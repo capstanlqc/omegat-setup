@@ -330,14 +330,12 @@ void update_omegat_prefs(localPrefsPath) {
     remotePrefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
 
     console.println(" I will set scripts_dir to '${local_scripts_dpath}'")
-    remotePrefs.scripts_dir = local_scripts_dpath
+    remotePrefs.scripts_dir = local_scripts_dpath.toString()
     remotePrefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
 
     // Try to guess the property type, Boolean, Integer or String
     remotePrefs.each { prop ->
-        if (prop.value instanceof File) {
-            Preferences.setPreference(prop.key, prop.value.toString())
-        } else if (prop.value == "true" || prop.value == "false") {
+        if (prop.value == "true" || prop.value == "false") {
             Preferences.setPreference(prop.key, prop.value.toBoolean())
         } else if (prop.value.isInteger()) {
             Preferences.setPreference(prop.key, prop.value.toInteger())
