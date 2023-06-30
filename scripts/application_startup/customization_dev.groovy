@@ -277,7 +277,7 @@ void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
             def local_asset_hash = local_file_hash_map.find { it.key == remote_file_name }?.value
 
             if (!local_asset_hash) {
-                console.println("Remote file ${remote_file_url} has no associated asset hash")
+                console.println("!! Remote file ${remote_file_url} has no associated asset hash")
                 return
             }
 
