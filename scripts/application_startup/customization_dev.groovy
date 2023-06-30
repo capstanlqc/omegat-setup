@@ -194,7 +194,7 @@ void delete_old_plugins(new_jar_relpath, local_plugins_dpath) {
 
             // Hopefully, with RFE#1159 in, there's no need to delete obsolete jar as they
             // won't be loaded by the application.
-            console.prinln('Windows has issues with deleting files, sorry!')
+            console.println('Windows has issues with deleting files, sorry!')
         } else {
             console.println("Congratulations on your OS choice! :P")
             // def file = new File(it)
