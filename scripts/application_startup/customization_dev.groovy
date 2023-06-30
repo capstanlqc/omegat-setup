@@ -271,45 +271,38 @@ void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
 
         // if the remote asset is found in the assets folder
         def downloaded = local_file_hash_map.containsKey(remote_file_name)
+        URL remote_file_url = get_remote_file_url(remote_config_dir, remote_file_name)
+
         if (downloaded) {
             def local_asset_hash = local_file_hash_map.find { it.key == remote_file_name }?.value
 
-            if (local_asset_hash) {
-                console.println("/////////////////////////////////////////")
-                console.println(">> remote_file_name: " + remote_file_name)
-                console.println(">> local_asset_hash: " + local_asset_hash)
-                console.println(">> remote_file_hash: " + remote_file_hash)
-                if (local_asset_hash == remote_file_hash) {
-                    message.add("== Remote custom file ${remote_file_name} hasn't changed, the local copy is up to date.")
-                    // console.println("== Remote custom file ${remote_file_name} hasn't changed, the local copy is up to date.")
-                } else {
-                    // ++ Remote custom file SHA1SUM has been updated, downloading now. @debug message
-                    message.add("++ Remote custom file " + remote_file_name + " has been updated, downloading now.")
-                    console.println("++ Remote custom file " + remote_file_name + " has been updated, downloading now.")
-                    // download
-                    console.println("remote_config_dir + remote_file_name: " + remote_config_dir + File.separator + remote_file_name)
+            if (!local_asset_hash) {
+                console.println("Remote file ${remote_file_url} has no associated asset hash")
+                return
+            }
 
-                    URL remote_file_url = get_remote_file_url(remote_config_dir, remote_file_name)
-                    // download_asset(remote_file_url)
-                    if (remote_file_name == "omegat.prefs") {
-                        console.println("<<<< HANDLING OMEGAT PREFS >>>>>")
+            console.println("/////////////////////////////////////////")
+            console.println(">> remote_file_name: " + remote_file_name)
+            console.println(">> local_asset_hash: " + local_asset_hash)
+            console.println(">> remote_file_hash: " + remote_file_hash)
+            if (local_asset_hash == remote_file_hash) {
+                message.add("== Remote custom file ${remote_file_name} hasn't changed, the local copy is up to date.")
+                // console.println("== Remote custom file ${remote_file_name} hasn't changed, the local copy is up to date.")
+            } else {
+                // ++ Remote custom file SHA1SUM has been updated, downloading now. @debug message
+                message.add("++ Remote custom file " + remote_file_name + " has been updated, downloading now.")
+                console.println("++ Remote custom file " + remote_file_name + " has been updated, downloading now.")
+                // download
+                console.println("remote_config_dir + remote_file_name: " + remote_config_dir + File.separator + remote_file_name)
 
-                        // parse local prefs file
-                        File localPrefsPath = new File(config_dir, 'omegat.prefs') // @debug
-                        //console.println('localPrefsPath  : ' + localPrefsPath) // @debug
-                        //get_omegat_prefs(localPrefsPath).each { prop -> console.println(":::   local: ${prop.key} => ${prop.value}") } // @debug
+                download_asset(remote_file_url)
 
-                        // Overwrite the omegat.prefs file with the remote one
-                        // the actual preferences are not yet updated!
-                        download_asset(remote_file_url)
-
-                        update_omegat_prefs(localPrefsPath)
-                        console.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-                    } else {
-                        download_asset(remote_file_url)
-                    }
-                    console.println("????????????????????????????????????")
+                if (remote_file_name == "omegat.prefs") {
+                    update_omegat_prefs()
+                } else if (remote_file_name == "uiLayout.xml") {
+                    update_ui_layout()
                 }
+                console.println("????????????????????????????????????")
             }
         } else {
             // just download
@@ -317,24 +310,43 @@ void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
             message.add("++ Remote custom file " + remote_file_name + " is new or had not been downloaded, downloading now.")
             console.println("++ Remote custom file " + remote_file_name + " is new or had not been downloaded, downloading now.")
             // download
-            download_asset(get_remote_file_url(remote_config_dir, remote_file_name))
+            download_asset(remote_file_url)
             // download_asset(remote_config_dir + File.separator + remote_file_name)
         }
     }
 }
 
+/** Update the UI Layout with the newly download layout. */
+// XXX This effectively prevents users to make adjustments on the UI layout as it will always be
+// reset with the remote layout at each application restart.
+void update_ui_layout() {
+    console.println("<<<< HANDLING UI LAYOUT >>>>>")
+    new File("uiLayout.xml").withInputStream(is -> {
+        Core.getMainWindow().getDesktop().readXML(is)
+    })
+}
+
 // Update current preferences from a file and save them.
-void update_omegat_prefs(localPrefsPath) {
-    // parse (now) local prefs file
-    Map<String, String> remotePrefs = get_omegat_prefs(localPrefsPath)
-    remotePrefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
+void update_omegat_prefs() {
+    console.println("<<<< HANDLING OMEGAT PREFS >>>>>")
+
+    // parse local prefs file
+    File local_prefs_path = new File(config_dir, 'omegat.prefs') // @debug
+    //console.println('localPrefsPath  : ' + localPrefsPath) // @debug
+    //get_omegat_prefs(localPrefsPath).each { prop -> console.println(":::   local: ${prop.key} => ${prop.value}") } // @debug
+
+    // The local omegat.prefs file has been overwritten with the remote one, but the actual
+    // preferences are not yet updated!
+
+    Map<String, String> remote_prefs = get_omegat_prefs(local_prefs_path)
+    remote_prefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
 
     console.println(" I will set scripts_dir to '${local_scripts_dpath}'")
-    remotePrefs.scripts_dir = local_scripts_dpath
-    remotePrefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
+    remote_prefs.scripts_dir = local_scripts_dpath
+    remote_prefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
 
     // Try to guess the property type, Boolean, Integer or String
-    remotePrefs.each { prop ->
+    remote_prefs.each { prop ->
         if (prop.value == "true" || prop.value == "false") {
             Preferences.setPreference(prop.key, prop.value.toBoolean())
         } else if (prop.value.isInteger()) {
