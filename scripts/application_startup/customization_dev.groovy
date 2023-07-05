@@ -194,7 +194,7 @@ void delete_old_plugins(new_jar_relpath, local_plugins_dpath) {
 
             // Hopefully, with RFE#1159 in, there's no need to delete obsolete jar as they
             // won't be loaded by the application.
-            console.prinln('Windows has issues with deleting files, sorry!')
+            console.println('Windows has issues with deleting files, sorry!')
         } else {
             console.println("Congratulations on your OS choice! :P")
             // def file = new File(it)
@@ -342,7 +342,7 @@ void update_omegat_prefs() {
     remote_prefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
 
     console.println(" I will set scripts_dir to '${local_scripts_dpath}'")
-    remote_prefs.scripts_dir = local_scripts_dpath
+    remote_prefs.put('scripts_dir', local_scripts_dpath.getAbsolutePath())
     remote_prefs.each { prop -> console.println("::: remote: ${prop.key} => ${prop.value}") } // @debug
 
     // Try to guess the property type, Boolean, Integer or String
