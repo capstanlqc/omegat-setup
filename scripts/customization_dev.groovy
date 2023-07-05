@@ -60,6 +60,7 @@ console.println(repo_url)
 title = "Customization"
 
 import groovy.xml.XmlParser
+import java.nio.file.*
 import java.security.MessageDigest
 import org.apache.commons.io.FilenameUtils
 import org.omegat.util.Preferences
@@ -297,7 +298,9 @@ void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
 
                 download_asset(remote_file_url)
 
-                if (remote_file_name == "omegat.prefs") {
+                if (remote_file_name == "scripts/customization_dev.groovy") {
+					update_scheduled_script(remote_file_name, 'application_startup')
+                } else if (remote_file_name == "omegat.prefs") {
                     update_omegat_prefs()
                 } else if (remote_file_name == "uiLayout.xml") {
                     update_ui_layout(new File(config_dir, "uiLayout.xml"))
@@ -314,6 +317,14 @@ void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
             // download_asset(remote_config_dir + File.separator + remote_file_name)
         }
     }
+}
+
+// Creates a copy of the given script to a callback folder (application_startup, project_changed or application_shutdown),
+// overwriting the destination file if it exists
+void update_scheduled_script(String filename, String destination_dir) {
+	File src = new File(config_dir, filename)
+	console.println(">>>>>>>> Copying " + src + " into " + Paths.get(config_dir, 'scripts', destination_dir, src.getName()))
+	Files.copy(src.toPath(), Paths.get(config_dir, 'scripts', destination_dir, src.getName()), StandardCopyOption.REPLACE_EXISTING)
 }
 
 /** Update the UI Layout with the newly download layout. */
