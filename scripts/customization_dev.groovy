@@ -321,7 +321,7 @@ void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
 // reset with the remote layout at each application restart.
 void update_ui_layout(File local_uilayout) {
     console.println("<<<< HANDLING UI LAYOUT >>>>>")
-    new File(local_uilayout_fpath).withInputStream(is -> {
+    local_uilayout.withInputStream(is -> {
         Core.getMainWindow().getDesktop().readXML(is)
     })
 }
