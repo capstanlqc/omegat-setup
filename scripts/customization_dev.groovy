@@ -319,7 +319,7 @@ void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
 /** Update the UI Layout with the newly download layout. */
 // XXX This effectively prevents users to make adjustments on the UI layout as it will always be
 // reset with the remote layout at each application restart.
-void update_ui_layout(local_uilayout_fpath) {
+void update_ui_layout(File local_uilayout) {
     console.println("<<<< HANDLING UI LAYOUT >>>>>")
     new File(local_uilayout_fpath).withInputStream(is -> {
         Core.getMainWindow().getDesktop().readXML(is)
