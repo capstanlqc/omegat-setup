@@ -300,7 +300,7 @@ void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
                 if (remote_file_name == "omegat.prefs") {
                     update_omegat_prefs()
                 } else if (remote_file_name == "uiLayout.xml") {
-                    update_ui_layout()
+                    update_ui_layout(new File(config_dir, "uiLayout.xml"))
                 }
                 console.println("????????????????????????????????????")
             }
@@ -319,9 +319,9 @@ void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
 /** Update the UI Layout with the newly download layout. */
 // XXX This effectively prevents users to make adjustments on the UI layout as it will always be
 // reset with the remote layout at each application restart.
-void update_ui_layout() {
+void update_ui_layout(File local_uilayout) {
     console.println("<<<< HANDLING UI LAYOUT >>>>>")
-    new File("uiLayout.xml").withInputStream(is -> {
+    local_uilayout.withInputStream(is -> {
         Core.getMainWindow().getDesktop().readXML(is)
     })
 }
