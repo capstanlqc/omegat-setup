@@ -36,8 +36,8 @@
     <editor_initial_segment_load_count>2000</editor_initial_segment_load_count>
     <ext_tmx_fuzzy_match_threshold>50</ext_tmx_fuzzy_match_threshold>
     <ext_tmx_match_template>${id}. ${fuzzyFlag}${diff}
-      ▷ ${score}/${noStemScore}/${adjustedScore}% ‹@{id}:@{file}› ¶${fileShortPath}
-      ${targetText}</ext_tmx_match_template>
+▷ ${score}/${noStemScore}/${adjustedScore}% ‹@{id}:@{file}› ¶${fileShortPath}
+${targetText}</ext_tmx_match_template>
     <ext_tmx_show_level2>true</ext_tmx_show_level2>
     <ext_tmx_sort_key>SCORE</ext_tmx_sort_key>
     <ext_tmx_use_slash>false</ext_tmx_use_slash>
