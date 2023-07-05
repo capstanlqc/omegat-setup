@@ -1,7 +1,7 @@
 /* :name = Custom User Configuration DEV2 (for 6.1.0) :description =Customize OmegaT including optimized configuration, scripts and plugins
  *
- *  @version: 0.5.4
- *  @author: Manuel Souto Pico, Briac Pilpré, Kos Ivantsov
+ *  @version: 0.5.7
+ *  @authors: Manuel Souto Pico, Briac Pilpré, Gergely Zayzon, Kos Ivantsov
  */
 /* groovylint-disable CompileStatic, DuplicateNumberLiteral, DuplicateStringLiteral, ExplicitCallToMinusMethod, FactoryMethodName, ImplicitClosureParameter, JavaIoPackageAccess, LineLength, MethodParameterTypeRequired, MethodReturnTypeRequired, NoDef, ParameterName, UnnecessaryGString, UnnecessaryGetter, VariableName, VariableTypeRequired */
 
