@@ -300,8 +300,7 @@ void fetch_files_by_hash(local_file_hash_map, remote_file_hash_map) {
                 if (remote_file_name == "omegat.prefs") {
                     update_omegat_prefs()
                 } else if (remote_file_name == "uiLayout.xml") {
-                    local_uilayout_fpath = config_dir + File.separator + "uiLayout.xml"
-                    update_ui_layout(local_uilayout_fpath)
+                    update_ui_layout(new File(config_dir, "uiLayout.xml"))
                 }
                 console.println("????????????????????????????????????")
             }
