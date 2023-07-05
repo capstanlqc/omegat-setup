@@ -20,7 +20,6 @@ b2db73bd0e8b1f683014d1c36d8fab79  plugins/okapiFiltersForOmegaT-1.13-1.45.0.jar
 84b4681132955958b567a41d7d92ea11  plugins/plugin-omt-package-1.8.0.jar
 8dca69fab6ce99ce65fc4cc0a0f97a55  README.md
 a05e27f40fb97c29dd639a384b8a405d  scripts/convert_arab2indic_segm.groovy
-e95f06760706aa04642a1d03510f5766  scripts/application_shutdown/customization_dev.groovy
 84305367b2add5c5563ff2863d950d78  scripts/write_source2file.groovy
 ff69dfb43285386890d264f34adf09c8  scripts/write_sel_files2TMXv2.groovy
 766e949781ba00502e920b45c6e20ef5  scripts/convert_indic2arab_global.groovy
@@ -43,7 +42,6 @@ dfdb9248d9eaedc829d362fdfe88d5f1  scripts/write_project2tsv.groovy
 36166c8333f998f7dbb6c4f0e76ffe23  scripts/restore_default_trans.groovy
 7ef07db3fbf3acd3fe03151e9f3f8e8f  scripts/strip_html_tags.groovy
 6055ce5e0cfe55d2e77d182affcda550  scripts/flush_working_tm.groovy
-772ae3c979a71bd4a672aad899f7fabe  scripts/application_startup/customization_dev.groovy
 41fb46443d43d659aba44469c6bd412e  scripts/application_startup/delete_unneeded_files.groovy
 62f8a643ebd1ffcf891b51778dc37565  scripts/jxl.jar
 8d1c10fc0aa9d9bf1cd5953562e2a011  scripts/check_rules.groovy
@@ -98,7 +96,6 @@ b2db73bd0e8b1f683014d1c36d8fab79  plugins/okapiFiltersForOmegaT-1.13-1.45.0.jar
 bdabc8575e99189a7fefe44d5de385a5  remote.md5
 f14ad52b739d4ed2dd1c4a1c71c138bb  remote.sha1
 a05e27f40fb97c29dd639a384b8a405d  scripts/convert_arab2indic_segm.groovy
-e95f06760706aa04642a1d03510f5766  scripts/application_shutdown/customization_dev.groovy
 84305367b2add5c5563ff2863d950d78  scripts/write_source2file.groovy
 ff69dfb43285386890d264f34adf09c8  scripts/write_sel_files2TMXv2.groovy
 766e949781ba00502e920b45c6e20ef5  scripts/convert_indic2arab_global.groovy
@@ -121,7 +118,6 @@ dfdb9248d9eaedc829d362fdfe88d5f1  scripts/write_project2tsv.groovy
 36166c8333f998f7dbb6c4f0e76ffe23  scripts/restore_default_trans.groovy
 7ef07db3fbf3acd3fe03151e9f3f8e8f  scripts/strip_html_tags.groovy
 6055ce5e0cfe55d2e77d182affcda550  scripts/flush_working_tm.groovy
-772ae3c979a71bd4a672aad899f7fabe  scripts/application_startup/customization_dev.groovy
 41fb46443d43d659aba44469c6bd412e  scripts/application_startup/delete_unneeded_files.groovy
 62f8a643ebd1ffcf891b51778dc37565  scripts/jxl.jar
 8d1c10fc0aa9d9bf1cd5953562e2a011  scripts/check_rules.groovy
@@ -151,9 +147,7 @@ b65965badb8bdb556983f5721795c460  scripts/goto_next_nonunique.groovy
 bb3881ccdf1814fc73d693194b251d2b  todo.md
 3a8c7fc1b31b299a9178a04b09df9820  uiLayout.xml
 bfaec67f273a5e5efb7cb1c686a9ef99  version_notes.txt
-aa62e0f7d6d70a2349bb35304dc3b024  scripts/application_shutdown/customization_dev.groovy
 aa62e0f7d6d70a2349bb35304dc3b024  scripts/customization_dev.groovy
-aa62e0f7d6d70a2349bb35304dc3b024  scripts/application_startup/customization_dev.groovy
 bfaec67f273a5e5efb7cb1c686a9ef99  changes.md
 9452aceed6ba372f04660d78a18db700  custo/preparation.md
 7c45b209dc57307b8aab5e551028bd5c  custo/custom_version.txt
@@ -178,9 +172,7 @@ b2db73bd0e8b1f683014d1c36d8fab79  plugins/okapiFiltersForOmegaT-1.13-1.45.0.jar
 9977f2b94709b39f9b715d9fa138201d  remote.md5
 f14ad52b739d4ed2dd1c4a1c71c138bb  remote.sha1
 a05e27f40fb97c29dd639a384b8a405d  scripts/convert_arab2indic_segm.groovy
-aa62e0f7d6d70a2349bb35304dc3b024  scripts/application_shutdown/customization_dev.groovy
 84305367b2add5c5563ff2863d950d78  scripts/write_source2file.groovy
-aa62e0f7d6d70a2349bb35304dc3b024  scripts/customization_dev.groovy
 ff69dfb43285386890d264f34adf09c8  scripts/write_sel_files2TMXv2.groovy
 766e949781ba00502e920b45c6e20ef5  scripts/convert_indic2arab_global.groovy
 523bc16ab0cb739273106d626e4cd919  scripts/fetch_glossaries.groovy
@@ -202,7 +194,6 @@ dfdb9248d9eaedc829d362fdfe88d5f1  scripts/write_project2tsv.groovy
 36166c8333f998f7dbb6c4f0e76ffe23  scripts/restore_default_trans.groovy
 7ef07db3fbf3acd3fe03151e9f3f8e8f  scripts/strip_html_tags.groovy
 6055ce5e0cfe55d2e77d182affcda550  scripts/flush_working_tm.groovy
-aa62e0f7d6d70a2349bb35304dc3b024  scripts/application_startup/customization_dev.groovy
 41fb46443d43d659aba44469c6bd412e  scripts/application_startup/delete_unneeded_files.groovy
 62f8a643ebd1ffcf891b51778dc37565  scripts/jxl.jar
 8d1c10fc0aa9d9bf1cd5953562e2a011  scripts/check_rules.groovy
