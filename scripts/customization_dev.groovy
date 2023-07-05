@@ -1,6 +1,6 @@
 /* :name = Custom User Configuration DEV2 (for 6.1.0) :description =Customize OmegaT including optimized configuration, scripts and plugins
  *
- *  @version: 0.5.7
+ *  @version: 0.5.8
  *  @authors: Manuel Souto Pico, Briac Pilpré, Gergely Zayzon, Kos Ivantsov
  */
 /* groovylint-disable CompileStatic, DuplicateNumberLiteral, DuplicateStringLiteral, ExplicitCallToMinusMethod, FactoryMethodName, ImplicitClosureParameter, JavaIoPackageAccess, LineLength, MethodParameterTypeRequired, MethodReturnTypeRequired, NoDef, ParameterName, UnnecessaryGString, UnnecessaryGetter, VariableName, VariableTypeRequired */
@@ -22,6 +22,9 @@
  * - update scripts_dir in preferences with value of path to user config dir
  * @0.5.4:
  * - create parent directory of new custom files
+ * ... 
+ * @0.5.7:
+ * - send file rather than filename to the update_uilayout() function
 */
 
 // groovy.xml.DomBuilder (instead of slurper)
