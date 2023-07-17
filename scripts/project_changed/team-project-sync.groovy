@@ -5,7 +5,7 @@
  * @date    2023-01-04 (modification)
  * @date    2023-07-17 (modification: make dir generic to accept source, tm, etc.
  * @version 0.3
- */
+*/
 
 import static org.omegat.core.events.IProjectEventListener.PROJECT_CHANGE_TYPE.*
 import static javax.swing.JOptionPane.*
@@ -40,7 +40,7 @@ if (eventType == LOAD) {
 	}
 
 	diffDirRemoteLocal(props, dir = "source")
-	diffDirRemoteLocal(props, dir = "tm")
+	// diffDirRemoteLocal(props, dir = "tm")
 	console.println("Sync done.")
 }
 
