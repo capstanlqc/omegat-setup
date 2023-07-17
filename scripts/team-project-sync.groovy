@@ -1,11 +1,11 @@
-/* :name=Team Project Sync (on Load) :description=Removes extra files from directory mappings
+/* :name=Team Project Sync (manually) :description=Removes extra files from directory mappings
  *
  * @author  Briac Pilpre, Manuel Souto
  * @date    2020-05-12 (creation)
- * @date    2023-01-04 (modification: remove gui and add event type
- * @date    2023-07-17 (modification: make dir generic to accept source, tm, etc.
+ * @date    2023-01-04 (modification)
+ * @date    2023-07-17 (modification)
  * @version 0.3
-*/
+ */
 
 import static org.omegat.core.events.IProjectEventListener.PROJECT_CHANGE_TYPE.*
 import static javax.swing.JOptionPane.*
@@ -18,44 +18,29 @@ import gen.core.project.RepositoryDefinition;
 import gen.core.project.RepositoryMapping;
 import org.omegat.core.team2.RemoteRepositoryProvider;
 
-// logic
+def gui() {
 
-if (eventType == LOAD) {
-    // Skip sync
-    if (skipSync(LOAD)) {
-		LOAD.skipSync = false // reset the flag
-		return
+    VERBOSE = true;
+
+    // abort if a team project is not opened
+    def props = project.projectProperties
+    if (!props || !props.repositories) {
+    	final def title = 'Team Project Sync';
+    	// @todo: does this actually check that the project is a team project?
+    	final def msg = 'No team project opened.';
+    	showMessageDialog(null, msg, title, INFORMATION_MESSAGE);
+    	return;
     }
+    
+    diffDirRemoteLocal(props, dir = "source")
+    diffDirRemoteLocal(props, dir = "tm")
 
-	VERBOSE = true;
-
-	// abort if a team project is not opened
-	def props = project.projectProperties
-	if (!props || !props.repositories) {
-		final def title = 'Team Project Sync';
-		// @todo: does this actually check that the project is a team project?
-		final def msg = 'No team project opened.';
-		// showMessageDialog(null, msg, title, INFORMATION_MESSAGE);
-		return;
-	}
-
-	diffDirRemoteLocal(props, dir = "source")
-	// diffDirRemoteLocal(props, dir = "tm")
-	console.println("Sync done.")
-}
-
-// functions
-
-def skipSync(eventType) {
-    if (!eventType.metaClass.hasProperty(eventType, 'skipSync')) {
-        eventType.metaClass.skipSync = false
-    }
-    eventType.skipSync
+    console.println("Sync done.")
 }
 
 def diffDirRemoteLocal(props, String dir) throws Exception {
 
-	File localDir = null // it must be initialized outside the if's scope
+	File localDir = null
 	BACKUP_DIR = dir + "_backup"
 	
 	if (dir.equals("source")) { localDir = props.getSourceDir().getAsFile() } 
@@ -97,7 +82,6 @@ def diffDirRemoteLocal(props, String dir) throws Exception {
 		}
 	}
 
-
 	if (VERBOSE) {
 		console.println("--- Current remote files ---");
 		for (String s : remoteFiles) {
@@ -108,25 +92,24 @@ def diffDirRemoteLocal(props, String dir) throws Exception {
 	if (VERBOSE) console.println("--- Files to be removed from directory ---");
 	localFiles.removeAll(remoteFiles);
 
-	// def backupDir = new File(projectRoot, BACKUP_DIR);
-	// backupDir.mkdirs();
+	def backupDir = new File(projectRoot, BACKUP_DIR);
+	backupDir.mkdirs();
 	def hasChanged = false;
 	for (String s : localFiles) {
 		console.println(s);
 		try {
-			// FileUtils.moveFile(new File(localDir, s), new File(backupDir, s));
-			// no need for backups, old files can be deleted // @todo: option to choose delete or backup
-			new File(localDir, s).delete()
+			FileUtils.moveFile(new File(localDir, s), new File(backupDir, s));
+			// new File(localDir, s).delete()
 			hasChanged = true;
 		} catch (Exception e) {
 			console.println(e);
 		}
 	}
 
-	if (hasChanged && eventType == LOAD) {
-		reloadProjectOnetime()
-		// org.omegat.gui.main.ProjectUICommands.projectReload();
+	if (hasChanged) {
+		org.omegat.gui.main.ProjectUICommands.projectReload();
 	}
+
 }
 
 def getRepositoryDir(projectRoot, repo) {
@@ -137,14 +120,3 @@ def getRepositoryDir(projectRoot, repo) {
 def withoutLeadingSlash(s) {
 	return s.startsWith("/") ? s.substring(1) : s;
 }
-
-def reloadProjectOnetime() {
-    LOAD.skipSync = true    // avoid potentially infinity reloading loop
-    javax.swing.SwingUtilities.invokeLater({
-        org.omegat.gui.main.ProjectUICommands.projectReload()
-    } as Runnable)
-}
-
-/*
-@todo: this only handles files, not folders. any subfolders get empty but remain...
-*/
