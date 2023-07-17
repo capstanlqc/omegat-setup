@@ -1,9 +1,10 @@
-/* :name=Team Project Sync :description=Removes extra files from source directory mappings
+/* :name=Team Project Sync :description=Removes extra files from directory mappings
  *
  * @author  Briac Pilpre, Manuel Souto
  * @date    2020-05-12 (creation)
  * @date    2023-01-04 (modification)
- * @version 0.2
+ * @date    2023-07-17 (modification: make dir generic to accept source, tm, etc.
+ * @version 0.3
  */
 
 import static org.omegat.core.events.IProjectEventListener.PROJECT_CHANGE_TYPE.*
@@ -17,12 +18,7 @@ import gen.core.project.RepositoryDefinition;
 import gen.core.project.RepositoryMapping;
 import org.omegat.core.team2.RemoteRepositoryProvider;
 
-def skipSync(eventType) {
-    if (!eventType.metaClass.hasProperty(eventType, 'skipSync')) {
-        eventType.metaClass.skipSync = false
-    }
-    eventType.skipSync
-}
+// logic
 
 if (eventType == LOAD) {
     // Skip sync
@@ -31,7 +27,6 @@ if (eventType == LOAD) {
 		return
     }
 
-	BACKUP_DIR = "source_backup";
 	VERBOSE = true;
 
 	// abort if a team project is not opened
@@ -44,19 +39,32 @@ if (eventType == LOAD) {
 		return;
 	}
 
-	diffSourceRemoteLocal(props);
+	diffDirRemoteLocal(props, dir = "source")
+	diffDirRemoteLocal(props, dir = "tm")
 	console.println("Sync done.")
 }
 
-def diffSourceRemoteLocal(props) throws Exception {
+// functions
 
-	// @todo: this only handles files, not folders. any subfolders get empty but remain...
+def skipSync(eventType) {
+    if (!eventType.metaClass.hasProperty(eventType, 'skipSync')) {
+        eventType.metaClass.skipSync = false
+    }
+    eventType.skipSync
+}
+
+def diffDirRemoteLocal(props, String dir) throws Exception {
+
+	File localDir = null
+	BACKUP_DIR = dir + "_backup"
 	
-	File localSourceDir = props.getSourceDir().getAsFile();
+	if (dir.equals("source")) { localDir = props.getSourceDir().getAsFile() } 
+	else if (dir.equals("tm")) { localDir = props.getTmDir().getAsFile() } 
+	
 	def projectRoot = props.projectRootDir;
 
 	// List of current local files
-	List<String> localFiles = FileUtil.buildRelativeFilesList(localSourceDir, null, ['.gitkeep']); /* includes, excludes */
+	List<String> localFiles = FileUtil.buildRelativeFilesList(localDir, null, ['.gitkeep']); /* includes, excludes */
 
 	if (VERBOSE) {
 		console.println("--- Current local files ---");
@@ -65,7 +73,7 @@ def diffSourceRemoteLocal(props) throws Exception {
 		}
 	}
 
-	// Build the list of remote source files
+	// Build the list of remote files
 	def remoteFiles = new ArrayList<>(localFiles.size());
 
 	// this line because it seems hidden remote files are not collected
@@ -75,14 +83,14 @@ def diffSourceRemoteLocal(props) throws Exception {
 		def repositoryDir = getRepositoryDir(projectRoot, repoDefinition);
 
 		for (def repoMapping in repoDefinition.getMapping()) {
-			// Only look at source directory mappings
-			if (repoMapping.getLocal().startsWith(localSourceDir.getName())) {
+			// Only look at directory mappings
+			if (repoMapping.getLocal().startsWith(localDir.getName())) {
 				def from = new File(repositoryDir, withoutLeadingSlash(repoMapping.getRepository()));
-				def remoteSourceFiles = FileUtil.buildRelativeFilesList(from, null, null);
-				for (def remoteFile in remoteSourceFiles) {
+				def remoteDirFiles = FileUtil.buildRelativeFilesList(from, null, null);
+				for (def remoteFile in remoteDirFiles) {
 					// Build the mapped path name as it will be found in the local directory
 					def targetPath = new File(new File(projectRoot, repoMapping.getLocal()), remoteFile).toPath();
-					def mappedLocal = localSourceDir.toPath().relativize(targetPath).toString().replace('\\', '/');
+					def mappedLocal = localDir.toPath().relativize(targetPath).toString().replace('\\', '/');
 					remoteFiles.add(mappedLocal);
 				}
 			}
@@ -97,7 +105,7 @@ def diffSourceRemoteLocal(props) throws Exception {
 		}
 	}
 
-	if (VERBOSE) console.println("--- Files to be removed from source ---");
+	if (VERBOSE) console.println("--- Files to be removed from directory ---");
 	localFiles.removeAll(remoteFiles);
 
 	// def backupDir = new File(projectRoot, BACKUP_DIR);
@@ -106,9 +114,9 @@ def diffSourceRemoteLocal(props) throws Exception {
 	for (String s : localFiles) {
 		console.println(s);
 		try {
-			// FileUtils.moveFile(new File(localSourceDir, s), new File(backupDir, s));
+			// FileUtils.moveFile(new File(localDir, s), new File(backupDir, s));
 			// no need for backups, old files can be deleted // @todo: option to choose delete or backup
-			new File(localSourceDir, s).delete()
+			new File(localDir, s).delete()
 			hasChanged = true;
 		} catch (Exception e) {
 			console.println(e);
@@ -136,3 +144,7 @@ def reloadProjectOnetime() {
         org.omegat.gui.main.ProjectUICommands.projectReload()
     } as Runnable)
 }
+
+/*
+@todo: this only handles files, not folders. any subfolders get empty but remain...
+*/
