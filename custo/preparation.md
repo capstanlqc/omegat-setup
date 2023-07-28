@@ -2,4 +2,4 @@
 
 git clone ORG/omegat-user-config
 cd omegat-user-config
-find * -type f -exec md5sum {} \; > SHA1SUM
+find * -type f -exec md5sum {} \; > remote.md5
