@@ -1,5 +1,9 @@
 # OmegaT (cApStAn) customization
 
+## Update 83_c00 (2023-07-27)
+
+* Config: Added custom tags for interpolated variables in YSC text files 
+
 ## Update 81_c0p (2023-05-15)
 
 * Plugin: Added `TmxCommentsProvider-1.1.jar` to enable T&A notes in the Comments pane
